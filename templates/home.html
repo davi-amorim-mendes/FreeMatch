@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreeMatch</title>
+    <link rel="shortcut icon" href="/static/icons/logo-morango.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/css/global.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+</head>
+<body>
+    <section class="landing-page home-page">
+        <div class="container">
+            <header class="header-home">
+                <a href="/home">
+                    <img src="/static/icons/logo.png" class="logo-home">
+                </a>
+                <span class="gratuito">
+                    100% grátis
+                </span>
+            </header>
+            <section class="conteudo">
+                <div class="slide-feed">
+                    <img class="slide-foto" src="/static/fotos/lilis.jpg" alt="">
+                    <div class="slide-info-top">
+                        <button class="info-btn"><i class="bi bi-info-circle"></i></button>
+                    </div>
+                    <div class="slide-desc">
+                        <h1 class="desc-nome">Ana <span class="desc-idade">28</span></h1>
+                        <h2 class="desc-distancia"><i class="bi bi-geo-alt"></i></h2>
+                    </div>
+                </div>
+                <div class="interacoes">
+                    <button class="interacao-btn deslike-btn"><i class="bi bi-x"></i></button>
+                    <button class="interacao-btn like-btn"><i class="bi bi-suit-heart-fill"></i></button>
+                </div>
+            </section>
+            <div class="menu">
+                <button class="menu-btn select" id="menu-explorar" onclick="select('explorar')"><i class="bi bi-fire"></i></button>
+                <button class="menu-btn" id="menu-matches" onclick="select('matches')"><i class="bi bi-heart"></i></button>
+                <button class="menu-btn" id="menu-chat" onclick="select('chat')"><i class="bi bi-chat"></i></button>
+                <button class="menu-btn" id="menu-perfil" onclick="select('perfil')"><i class="bi bi-person"></i></button>
+                <button onclick="logout()">SAIR</button>
+            </div>
+        </div>
+    </section>
+</body>
+<script>
+    function logout()
+    {
+        fetch("/logout", {
+            method: "POST",
+            credentials: "include",
+        })
+        .then(response =>{
+            return response.json()
+        })
+        .then(data =>{
+            alert(data.mensagem)
+            location = "/"
+        })
+    }
+</script>
+<script src="/static/js/menu.js"></script>
+</html>

@@ -1,0 +1,9 @@
+@font-face {
+    font-family: Inter;
+    src: url('/static/fonts/Inter.ttf');
+}
+
+@font-face {
+    font-family: Petit;
+    src: url('/static/fonts/Petit.ttf');
+}

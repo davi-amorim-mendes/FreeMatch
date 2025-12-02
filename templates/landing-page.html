@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreeMatch</title>
+    <link rel="shortcut icon" href="/static/icons/logo-morango.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/css/global.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+</head>
+<body>
+    <section class="landing-page">
+        <img src="/static/icons/logo.png" alt="" class="landing-logo">
+        <div class="landing-card">
+            <p class="principal">Encontre o Amor Verdadeiro</p>
+            <p class="secundario">100% Gratuito. Sem taxas escondidas. Sem limites.</p>
+            <span class="info">
+                <i class="bi bi-arrow-through-heart-fill landing-red" id="landing-icon"></i>
+                <span class="info-text">
+                    <p class="principal">Matches Ilimitados</p><br>
+                    <p class="secundario">Dê like em quantos perfis você quiser</p>
+                </span>
+            </span>
+            <span class="info">
+                <i class="bi bi-lightning-charge-fill landing-orange" id="landing-icon"></i>
+                <span class="info-text">
+                    <p class="principal">Mensagens Instantâneas</p><br>
+                    <p class="secundario">Chat grátis com todos os seus matches</p>
+                </span>
+            </span>
+            <span class="info">
+                <i class="bi bi-shield-fill-check landing-red" id="landing-icon"></i>
+                <span class="info-text">
+                    <p class="principal">Perfis Verificados</p><br>
+                    <p class="secundario">Segurança e autenticidade garantidas</p>
+                </span>
+            </span>
+            <span class="info">
+                <i class="bi bi-stars landing-orange" id="landing-icon"></i>
+                <span class="info-text">
+                    <p class="principal">Recursos Premium Grátis</p><br>
+                    <p class="secundario">Tudo liberado, para sempre</p>
+                </span>
+            </span>
+            <br>
+            <button class="landing-button" id="entrar" onclick="form_ent()">
+                Entrar
+            </button>
+            <button class="landing-button" id="comecar" onclick="form_cad()">
+                Começar Agora
+            </button>
+            <p class="secundario">Cadastro simples e rápido • Cancele quando quiser</p>
+        </div>
+        <div class="landing-card form-cadastro">
+            <div class="card-voltar">
+                <button class="voltar" onclick="voltar_cad()">
+                    X
+                </button>
+            </div>
+            <!-- CADASTRO -->
+            <form class="form-cad">
+                <div class="etapa ativa">
+                    <img class="form-logo" src="/static/icons/logo.png">
+                    <h1 class="form-h1">Criar Conta</h1>
+                    <h2 class="form-h2">Passo 1 de 3</h2>
+                    <div class="etapa-bars">
+                        <span class="etapa-bar etapa-ativa"></span>
+                        <span class="etapa-bar"></span>
+                        <span class="etapa-bar"></span>
+                    </div>
+                    <label class="form-label" for="nome-cad">Nome Completo</label>
+                    <input class="form-input" type="text" name="nome-cad" id="nome-cad" placeholder="Digite seu nome completo">
+                    <label class="form-label" for="email-cad">E-mail</label>
+                    <input class="form-input" type="text" name="email-cad" id="email-cad" placeholder="seu@email.com">
+                    <label class="form-label" for="senha1-cad">Senha</label>
+                    <input class="form-input" type="password" name="senha1-cad" id="senha1-cad" placeholder="Mínimo 6 caracteres">
+                    <label class="form-label" for="senha2-cad">Confirmar Senha</label>
+                    <input class="form-input" type="password" name="senha2-cad" id="senha2-cad" placeholder="Digite a senha novamente">
+                    <button type="button" class="landing-button button-form" id="comecar" onclick="proxima_etapa()">Próximo</button>
+                </div>
+                <div class="etapa">
+                    <img class="form-logo" src="/static/icons/logo.png">
+                    <h1 class="form-h1">Criar Conta</h1>
+                    <h2 class="form-h2">Passo 2 de 3</h2>
+                    <div class="etapa-bars">
+                        <span class="etapa-bar etapa-ativa"></span>
+                        <span class="etapa-bar etapa-ativa"></span>
+                        <span class="etapa-bar"></span>
+                    </div>
+                    <label class="form-label" for="datanasc">Data de Nascimento</label>
+                    <input class="form-input" type="date" name="datanasc" id="datanasc">
+                    <p class="secundario">Você precisa ter pelo menos 18 anos</p>
+                    <label class="form-label" for="genero">Gênero</label>
+                    <span class="grid-generos">
+                        <input type="radio" class="check" name="genero" id="homem" value="homem">
+                        <label for="homem" class="check-label">Homem</label>
+                        <input type="radio" class="check" name="genero" id="mulher" value="mulher">
+                        <label for="mulher" class="check-label">Mulher</label>
+                        <input type="radio" class="check" name="genero" id="outro" value="outro">
+                        <label for="outro" class="check-label">Outro</label>
+                    </span>
+                    <label class="form-label" for="genero-pref">Procurando por</label>
+                    <span class="grid-generos">
+                        <input type="radio" class="check" name="genero-pref" id="homem-pref" value="homem-pref">
+                        <label for="homem-pref" class="check-label">Homem</label>
+                        <input type="radio" class="check" name="genero-pref" id="mulher-pref" value="mulher-pref">
+                        <label for="mulher-pref" class="check-label">Mulher</label>
+                        <input type="radio" class="check" name="genero-pref" id="todos" value="todos">
+                        <label for="todos" class="check-label">Todos</label>
+                    </span>
+                    <label class="form-label" for="relacionamento">Tipo de Relacionamento</label>
+                    <select class="form-input" name="relacionamento" id="relacionamento">
+                        <option value="serio">Relacionamento Sério</option>
+                        <option value="casual">Algo Casual</option>
+                        <option value="amizade">Apenas Amizade</option>
+                        <option value="cachorrada">CACHORRADA</option>
+                    </select>
+                    <button type="button" class="landing-button button-form" id="entrar" onclick="voltar_etapa()">Voltar</button>
+                    <button type="button" class="landing-button button-form" id="comecar" onclick="proxima_etapa()">Próximo</button>
+                </div>
+                <div class="etapa">
+                    <img class="form-logo" src="/static/icons/logo.png">
+                    <h1 class="form-h1">Criar Conta</h1>
+                    <h2 class="form-h2">Passo 3 de 3</h2>
+                    <div class="etapa-bars">
+                        <span class="etapa-bar etapa-ativa"></span>
+                        <span class="etapa-bar etapa-ativa"></span>
+                        <span class="etapa-bar etapa-ativa"></span>
+                    </div>
+                    <label class="form-label" for="sobre">Sobre Você (Opcional)</label>
+                    <textarea class="form-input form-area" name="sobre" id="sobre" placeholder="Conte um pouco sobre você, seus hobbies e o que procura..."></textarea>
+                    <label class="form-label" for="interesses">Selecione seus interesses</label>
+                    <p class="secundario">Escolha pelo menos 5 interesses</p>
+                    <span class="grid-generos grid-interesses">
+                        <input type="checkbox" class="check" name="interesses" id="musica" value="musica">
+                        <label for="musica" class="check-label">Música</label>
+                        <input type="checkbox" class="check" name="interesses" id="viagem" value="viagem">
+                        <label for="viagem" class="check-label">Viagens</label>
+                        <input type="checkbox" class="check" name="interesses" id="fotografia" value="fotografia">
+                        <label for="fotografia" class="check-label">Fotografia</label>
+                        <input type="checkbox" class="check" name="interesses" id="cinema" value="cinema">
+                        <label for="cinema" class="check-label">Cinema</label>
+                        <input type="checkbox" class="check" name="interesses" id="leitura" value="leitura">
+                        <label for="leitura" class="check-label">Leitura</label>
+                        <input type="checkbox" class="check" name="interesses" id="esportes" value="esportes">
+                        <label for="esportes" class="check-label">Esportes</label>
+                        <input type="checkbox" class="check" name="interesses" id="arte" value="arte">
+                        <label for="arte" class="check-label">Arte</label>
+                        <input type="checkbox" class="check" name="interesses" id="game" value="game">
+                        <label for="game" class="check-label">Game</label>
+                        <input type="checkbox" class="check" name="interesses" id="natureza" value="natureza">
+                        <label for="natureza" class="check-label">Natureza</label>
+                        <input type="checkbox" class="check" name="interesses" id="vinho" value="vinho">
+                        <label for="vinho" class="check-label">Vinho</label>
+                    </span>
+                    <button type="button" class="landing-button button-form" id="entrar" onclick="voltar_etapa()">Voltar</button>
+                    <button type="submit" class="landing-button button-form" id="comecar">Concluir Cadastro</button>
+                </div>
+            </form>
+        </div>
+        <!-- LOGIN -->
+        <div class="landing-card form-entrar">
+            <div class="card-voltar">
+                <button class="voltar" onclick="voltar_ent()">
+                    X
+                </button>
+            </div>
+            <h1 class="form-h1">Bem-vindo de volta!</h1>
+            <h2 class="form-h2">Entre para encontrar seu match</h2>
+            <form class="form-ent">
+                <div class="etapa-entrar">
+                    <label class="form-label" for="email-login">E-mail</label>
+                    <input class="form-input" type="text" name="email-login" id="email-login" placeholder="seu@email.com">
+                    <label class="form-label" for="senha-login">Senha</label>
+                    <input class="form-input" type="password" name="senha-login" id="senha-login" placeholder="Digite sua senha">
+                    <a href="#" class="link-senha">Esqueceu sua senha?</a>
+                    <button class="landing-button button-form" id="comecar" type="submit">Entrar</button>
+                    <p class="secundario" style="text-align: center;">Não tem uma conta? <a onclick="form_cad()" class="link-cadastro">Cadastre-se grátis</a></p>
+                </div>
+            </form>
+        </div>
+        <footer class="landing-footer">
+            Ao continuar, você concorda com nossos <a href="#" class="termos"> Termos de Uso</a>
+        </footer>
+    </section>
+</body>
+<script src="/static/js/cadastro.js"></script>
+<script src="/static/js/login.js"></script>
+</html>

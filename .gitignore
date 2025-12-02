@@ -1,0 +1,42 @@
+# SEGURANÇA
+.env
+.env.local
+secrets.py
+*.key
+
+# AMBIENTE PYTHON
+__pycache__/
+*.py[cod]
+venv/
+env/
+.venv/
+
+# DEPENDÊNCIAS
+*.egg-info/
+build/
+dist/
+
+# BANCO DE DADOS LOCAL
+*.sqlite3
+db.sqlite3
+
+# LOGS
+*.log
+logs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# SISTEMA
+.DS_Store
+Thumbs.db
+
+# TEMPORÁRIOS
+temp/
+tmp/
+
+# EXCEÇÕES (NÃO ignorar)
+!.env.example
+!requirements.txt
