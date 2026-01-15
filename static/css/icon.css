@@ -1,0 +1,193 @@
+/* PIX */
+
+.apoie-pix
+{
+    height: 100%;
+    background-color: ivory;
+    padding: 10px;
+    box-shadow: 0px 10px 10px black;
+}
+
+/* MENU */
+
+.menu-btn {
+    width: 70px;
+    height: 70px;
+    font-size: 30px;
+    border: none;
+    border-radius: 50px;
+    color: gray;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.menu-btn:hover
+{
+    background-color: #c6c6c690;
+}
+
+.menu-btn.select {
+    background: linear-gradient(120deg, var(--vermelho), var(--laranja));
+    color: ivory;
+}
+
+/* EXPLORER INTERAÇÕES */
+
+.like-btn {
+    background: linear-gradient(120deg, var(--vermelho), var(--laranja));
+    color: ivory;
+}
+
+.deslike-btn {
+    background-color: ivory;
+    box-shadow: 0px 0px 5px black;
+}
+
+.interacoes {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.interacao-btn {
+    width: 80px;
+    height: 80px;
+    border: none;
+    border-radius: 50px;
+    font-size: 50px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.interacao-btn:hover {
+    width: 90px;
+    height: 90px;
+    font-size: 60px;
+}
+
+/* PERFIL */
+
+.grid-card-icon-rosa, .grid-card-icon-laranja
+{
+    width: 80px;
+    height: 80px;
+    background-color: ivory;
+    border-radius: 100%;
+    box-shadow: 0px 5px 5px #00000010;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+
+.grid-card-icon-rosa
+{
+    color: var(--rosa);
+}
+
+.grid-card-icon-laranja
+{
+    color: var(--laranja);
+}
+
+.editar-nome-idade:hover, .editar-sobre:hover, .editar-interesses:hover
+{
+    /* box-shadow: 0px 0px 10px var(--borda-cinza); */
+    text-shadow: 0px 0px 10px var(--vermelho);
+}
+
+.editar-nome-idade, .editar-sobre, .editar-interesses
+{
+    margin-left: 10px;
+    font-size: 19px;
+    cursor: pointer;
+    background-color: transparent;
+    transition: 0.2s;
+}
+
+/* CHAT */
+
+.chat-desc-nova
+{
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    background-color: var(--vermelho);
+}
+
+.heart-ballon
+{
+    font-size: 30px;
+    color: var(--vermelho);
+}
+
+/* EXPLORER */
+
+.info-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 25px;
+    padding: 10px;
+    border: none;
+    border-radius: 100%;
+    background-color: #ffffff30;
+    color: ivory;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.info-btn:hover {
+    background-color: #ffffff50;
+}
+
+/* GERAL */
+
+.logo-home {
+    width: 80px;
+    height: 80px;
+    background-image: url('/static/icons/logo.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.form-logo {
+    width: 130px;
+    margin: auto;
+}
+
+#landing-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.landing-red {
+    font-size: 25px;
+    color: var(--rosa);
+    background-color: #EF444450;
+}
+
+.landing-orange {
+    font-size: 20px;
+    color: var(--laranja);
+    background-color: #F9731650;
+}
+
+.landing-logo {
+    width: 250px;
+    height: 250px;
+}
+
+.icon-verificado
+{
+    /* color: var(--laranja); */
+    /* text-shadow: 0px 0px 10px ivory; */
+    width: 25px;
+    height: 25px;
+    /* box-shadow: 0px 5px 10px black; */
+}

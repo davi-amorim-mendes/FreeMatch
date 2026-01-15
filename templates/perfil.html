@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreeMatch</title>
+    <link rel="shortcut icon" href="/static/icons/logo-morango.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/css/global.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+</head>
+<body>
+    <section class="landing-page home-page">
+        <div class="container">
+            <header class="header-home">
+                <a href="/explorer">
+                    <img src="/static/icons/logo.png" class="logo-home">
+                </a>
+                <span class="gratuito">
+                    100% grátis
+                </span>
+            </header>
+            <section class="conteudo-perfil">
+                <div class="perfil-div">
+                    <div class="perfil-imagem-sem">
+                        <p id="perfil-nome">D</p>
+                        {% if usuario[0]["foto"] %}
+                            <img src="{{ usuario[0]['foto'] }}" class="grid-chat-img" id="img-perfil">
+                        {% else %}
+                            <img src="" class="grid-chat-img" id="img-perfil">
+                        {% endif %}
+                    </div>
+                    <label class="editar-foto-perfil-label" for="foto-perfil">
+                        <input class="editar-foto-perfil-hidden" type="file" name="foto-perfil" id="foto-perfil" accept="image/*">
+                        <i class="bi bi-camera"></i>
+                    </label>
+                    <div class="perfil-nome-idade">
+                        <p class="perfil-nome-idade-texto">{{ usuario[0]["nome"] }}, {{ usuario[0]["data"] }} <img class="icon-verificado" src="/static/icons/icon-verificado-vermelho.svg"> </p>
+                    </div>
+                    <div class="perfil-grid">
+                        <div class="perfil-grid-card">
+                            <i class="bi bi-arrow-through-heart grid-card-icon-rosa"></i>
+                            <p class="principal num-likes">127</p>
+                            <p class="secundario">Likes</p>
+                        </div>
+                        <div class="perfil-grid-card">
+                            <i class="bi bi-emoji-heart-eyes grid-card-icon-laranja"></i>
+                            <p class="principal num-likes">23</p>
+                            <p class="secundario">Matches</p>
+                        </div>
+                        <div class="perfil-grid-card">
+                            <i class="bi bi-envelope-heart grid-card-icon-rosa"></i>
+                            <p class="principal num-likes">18</p>
+                            <p class="secundario">Mensagens</p>
+                        </div>
+                    </div>
+                    <div class="perfil-sobre-div">
+                        <p class="perfil-sobre-titulo">Sobre Mim <i class="editar-sobre bi bi-pencil-square" onclick="editar_sobre()"></i></p>
+                        <p class="secundario perfil-sobre-texto" id="usuario-sobre-texto">{{ usuario[0]["sobre"] }}</p>
+                    </div>
+                    <div class="perfil-interesses-div">
+                        <p class="perfil-interesses-titulo">Interesses <!--<i class="editar-interesses bi bi-pencil-square"></i>!--></p>
+                        <div class="perfil-interesses">
+                            {% for interesse in usuario[1]%}
+                                <span class="interesse-span">{{ interesse["interesse_id"]}}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="perfil-gratuito">
+                    <p class="principal perfil-texto">100% Gratuito sempre!</p>
+                    <p class="secundario perfil-texto">Todos os recursos estão liberados para você.<br>Aproveite sem limites!</p>
+                </div>
+            </section>
+            <div class="menu">
+                <button class="menu-btn" id="menu-explorar" onclick="select('explorar')"><i class="bi bi-fire"></i></button>
+                <button class="menu-btn" id="menu-matches" onclick="select('matches')"><i class="bi bi-heart"></i></button>
+                <button class="menu-btn" id="menu-chat" onclick="select('chat')"><i class="bi bi-chat"></i></button>
+                <button class="menu-btn select" id="menu-perfil" onclick="select('perfil')"><i class="bi bi-person"></i></button>
+                <button class="menu-btn" onclick="select('sair')"><i class="bi bi-power"></i></button>
+            </div>
+        </div>
+        <span class="apoie">
+            <h1 class="apoie-h1">Apoie o FreeMatch!</h1>
+            <img src="/static/pix/pix.png" class="apoie-pix">
+        </span>
+    </section>
+</body>
+<script src="/static/js/menu.js"></script>
+<script src="/static/js/perfil.js"></script>
+</html>

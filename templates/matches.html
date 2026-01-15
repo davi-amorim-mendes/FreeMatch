@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreeMatch</title>
+    <link rel="shortcut icon" href="/static/icons/logo-morango.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/css/global.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+</head>
+<body>
+    <section class="landing-page home-page">
+        <div class="container">
+            <header class="header-home">
+                <a href="/explorer">
+                    <img src="/static/icons/logo.png" class="logo-home">
+                </a>
+                <span class="gratuito">
+                    5 Matches
+                </span>
+            </header>
+            <section class="conteudo conteudo-match">
+                <h1 class="matches-h1"><span class="heart-ballon"><i class="bi bi-balloon-heart-fill"></i></span> Seus Matches</h1>
+                <div class="grid-matches">
+                    <div class="grid-match-div">
+                        <img class="grid-foto" src="/static/img/lilis.jpg" alt="">
+                        <div class="grid-match-desc slide-margin">
+                            <p class="principal grid-nome">Ana, <span class="grid-idade">28</span></p>
+                            <p class="secundario grid-nome-2">Match em 08/12/2025</p>
+                        </div>
+                    </div>
+                    <div class="grid-match-div">
+                        <img class="grid-foto" src="/static/img/davi.jpg" alt="">
+                        <div class="grid-match-desc slide-margin">
+                            <p class="principal grid-nome">Davi, <span class="grid-idade">21</span></p>
+                            <p class="secundario grid-nome-2">Match em 08/12/2025</p>
+                        </div>
+                    </div>
+                    <div class="grid-match-div">
+                        <img class="grid-foto" src="/static/img/bruno.png" alt="">
+                        <div class="grid-match-desc slide-margin">
+                            <p class="principal grid-nome">Bruno, <span class="grid-idade">23</span></p>
+                            <p class="secundario grid-nome-2">Match em 08/12/2025</p>
+                        </div>
+                    </div>
+                    <div class="grid-match-div">
+                        <img class="grid-foto" src="/static/img/indiana.avif" alt="">
+                        <div class="grid-match-desc slide-margin">
+                            <p class="principal grid-nome">Clarisse, <span class="grid-idade">32</span></p>
+                            <p class="secundario grid-nome-2">Match em 08/12/2025</p>
+                        </div>
+                    </div>
+                    <div class="grid-match-div">
+                        <img class="grid-foto" src="/static/img/broxa.jpg" alt="">
+                        <div class="grid-match-desc slide-margin">
+                            <p class="principal grid-nome">Véio Broxa, <span class="grid-idade">76</span></p>
+                            <p class="secundario grid-nome-2">Match em 08/12/2025</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="menu">
+                <button class="menu-btn" id="menu-explorar" onclick="select('explorar')"><i class="bi bi-fire"></i></button>
+                <button class="menu-btn select" id="menu-matches" onclick="select('matches')"><i class="bi bi-heart"></i></button>
+                <button class="menu-btn" id="menu-chat" onclick="select('chat')"><i class="bi bi-chat"></i></button>
+                <button class="menu-btn" id="menu-perfil" onclick="select('perfil')"><i class="bi bi-person"></i></button>
+                <button class="menu-btn" onclick="select('sair')"><i class="bi bi-power"></i></button>
+            </div>
+        </div>
+        <span class="apoie">
+            <h1 class="apoie-h1">Apoie o FreeMatch!</h1>
+            <img src="/static/pix/pix.png" class="apoie-pix">
+        </span>
+    </section>
+</body>
+<script src="/static/js/menu.js"></script>
+</html>

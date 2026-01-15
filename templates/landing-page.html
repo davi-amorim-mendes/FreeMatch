@@ -101,11 +101,11 @@
                     </span>
                     <label class="form-label" for="genero-pref">Procurando por</label>
                     <span class="grid-generos">
-                        <input type="radio" class="check" name="genero-pref" id="homem-pref" value="homem-pref">
+                        <input type="radio" class="check" name="genero-pref" id="homem-pref" value="homem">
                         <label for="homem-pref" class="check-label">Homem</label>
-                        <input type="radio" class="check" name="genero-pref" id="mulher-pref" value="mulher-pref">
+                        <input type="radio" class="check" name="genero-pref" id="mulher-pref" value="mulher">
                         <label for="mulher-pref" class="check-label">Mulher</label>
-                        <input type="radio" class="check" name="genero-pref" id="todos" value="todos">
+                        <input type="radio" class="check" name="genero-pref" id="todos" value="outro">
                         <label for="todos" class="check-label">Todos</label>
                     </span>
                     <label class="form-label" for="relacionamento">Tipo de Relacionamento</label>
@@ -132,25 +132,25 @@
                     <label class="form-label" for="interesses">Selecione seus interesses</label>
                     <p class="secundario">Escolha pelo menos 5 interesses</p>
                     <span class="grid-generos grid-interesses">
-                        <input type="checkbox" class="check" name="interesses" id="musica" value="musica">
+                        <input type="checkbox" class="check" name="interesses" id="musica" value="1">
                         <label for="musica" class="check-label">Música</label>
-                        <input type="checkbox" class="check" name="interesses" id="viagem" value="viagem">
+                        <input type="checkbox" class="check" name="interesses" id="viagem" value="2">
                         <label for="viagem" class="check-label">Viagens</label>
-                        <input type="checkbox" class="check" name="interesses" id="fotografia" value="fotografia">
+                        <input type="checkbox" class="check" name="interesses" id="fotografia" value="3">
                         <label for="fotografia" class="check-label">Fotografia</label>
-                        <input type="checkbox" class="check" name="interesses" id="cinema" value="cinema">
+                        <input type="checkbox" class="check" name="interesses" id="cinema" value="4">
                         <label for="cinema" class="check-label">Cinema</label>
-                        <input type="checkbox" class="check" name="interesses" id="leitura" value="leitura">
+                        <input type="checkbox" class="check" name="interesses" id="leitura" value="5">
                         <label for="leitura" class="check-label">Leitura</label>
-                        <input type="checkbox" class="check" name="interesses" id="esportes" value="esportes">
+                        <input type="checkbox" class="check" name="interesses" id="esportes" value="6">
                         <label for="esportes" class="check-label">Esportes</label>
-                        <input type="checkbox" class="check" name="interesses" id="arte" value="arte">
+                        <input type="checkbox" class="check" name="interesses" id="arte" value="7">
                         <label for="arte" class="check-label">Arte</label>
-                        <input type="checkbox" class="check" name="interesses" id="game" value="game">
+                        <input type="checkbox" class="check" name="interesses" id="game" value="8">
                         <label for="game" class="check-label">Game</label>
-                        <input type="checkbox" class="check" name="interesses" id="natureza" value="natureza">
+                        <input type="checkbox" class="check" name="interesses" id="natureza" value="9">
                         <label for="natureza" class="check-label">Natureza</label>
-                        <input type="checkbox" class="check" name="interesses" id="vinho" value="vinho">
+                        <input type="checkbox" class="check" name="interesses" id="vinho" value="10">
                         <label for="vinho" class="check-label">Vinho</label>
                     </span>
                     <button type="button" class="landing-button button-form" id="entrar" onclick="voltar_etapa()">Voltar</button>
@@ -173,7 +173,7 @@
                     <input class="form-input" type="text" name="email-login" id="email-login" placeholder="seu@email.com">
                     <label class="form-label" for="senha-login">Senha</label>
                     <input class="form-input" type="password" name="senha-login" id="senha-login" placeholder="Digite sua senha">
-                    <a href="#" class="link-senha">Esqueceu sua senha?</a>
+                    <a href="/senha-esquecida" class="link-senha">Esqueceu sua senha?</a>
                     <button class="landing-button button-form" id="comecar" type="submit">Entrar</button>
                     <p class="secundario" style="text-align: center;">Não tem uma conta? <a onclick="form_cad()" class="link-cadastro">Cadastre-se grátis</a></p>
                 </div>

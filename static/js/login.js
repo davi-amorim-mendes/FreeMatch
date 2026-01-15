@@ -52,7 +52,7 @@ formulario_login.addEventListener("submit", function(event){
     })
     .then(data =>{
         alert(data.mensagem)
-        location = "/home"
+        location = "/explorer"
     })
     .catch(error =>{
         alert(`Erro ao logar: ${error.message}`)

@@ -1,0 +1,119 @@
+/* PERFIL */
+
+.perfil-imagem-sem
+{
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Inter;
+    font-size: 70px;
+    color: ivory;
+    background: linear-gradient(120deg, var(--rosa), var(--laranja));
+    box-shadow: 0px 10px 50px var(--borda-cinza);
+    margin: 0 auto;
+}
+
+/* MATCH */
+
+.grid-foto
+{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px 20px 0px 0px;
+    object-fit: cover;   
+}
+
+/* EXPLORER */
+
+.slide-feed {
+    position: relative;
+    width: 80%;
+    height: 700px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0 auto;
+    border-radius: 30px;
+    background-color: var(--borda-cinza);
+    overflow: hidden;
+}.slide-foto {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 30px;
+    object-fit: cover;
+}
+
+.slide-feed::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50%; /* ajuste o tamanho da sombra */
+    border-radius: 0 0 30px 30px; /* segue o arredondamento */
+    background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
+    pointer-events: none;
+    z-index: 2;
+}
+
+.slide-margin{
+    margin: 20px;
+
+}
+
+.slide-info-top {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: end;
+}
+
+.slide-desc{
+    font-family: Inter;
+    color: ivory;
+    z-index: 3;
+    line-height: 25px;
+}
+
+.desc-idade
+{
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.desc-distancia, .desc-sobre
+{
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.desc-interesses
+{
+    width: 100%;
+    /* background-color: aqua; */
+    display: flex;
+    text-align: center;
+    gap: 20px;
+}
+
+.interesse
+{
+    margin-top: 10px;
+    width: 90px;
+    border-radius: 10px;
+    font-size: 15px;
+    background: linear-gradient(var(--rosa), var(--laranja));
+}
+
+.i-relacao
+{
+    background: #00000050;
+    border: 1px solid ivory;
+    width: 170px;
+}

@@ -1,0 +1,184 @@
+/* CADASTRO E LOGIN */
+
+.form-cadastro {
+    position: fixed;
+    height: 90%;
+    display: none;
+}
+
+.form-entrar {
+    /* position: fixed; */
+    height: 60%;
+    display: none;
+}
+
+.form-h1,
+.form-h2 {
+    font-family: Inter;
+    text-align: center;
+}
+
+.form-h1 {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.form-h2 {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.card-voltar {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    justify-content: end;
+}
+
+.voltar {
+    width: 30px;
+    height: 30px;
+    border: none;
+    font-family: Inter;
+    font-size: 20px;
+    font-weight: 500;
+    background: transparent;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: 0.2s;
+}
+
+.voltar:hover {
+    background-color: gainsboro;
+    border-radius: 50%;
+}
+
+.etapa-bars {
+    width: 100%;
+    height: 10px;
+    display: grid;
+    grid-template-columns: 130px 130px 130px;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.etapa-bar {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    background-color: gainsboro;
+}
+
+.etapa-ativa {
+    background: linear-gradient(90deg, var(--rosa), var(--laranja));
+}
+
+.form-ent, .form-cad, .form-rec, .form-red {
+    width: 100%;
+    height: 100%;
+}
+
+.etapa,
+.etapa-entrar {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+
+.etapa.ativa,
+.etapa-entrar {
+    display: flex;
+}
+
+.form-label {
+    font-family: Inter, sans-serif;
+    font-size: 17px;
+    font-weight: 400;
+}
+
+.form-input {
+    height: 45px;
+    font-size: 17px;
+    border-radius: 10px;
+    border: 1px solid var(--borda-cinza);
+    padding-left: 17px;
+}
+
+.form-input:focus {
+    border-color: var(--vermelho);
+    box-shadow: 0 0 5px var(--laranja);
+    outline: none;
+}
+
+.button-form {
+    margin-top: 10px;
+}
+
+.button-form:hover {
+    width: 100%;
+}
+
+.grid-generos {
+    display: grid;
+    grid-template-columns: 130px 130px 130px;
+    justify-content: space-between;
+}
+
+.grid-interesses {
+    grid-template-columns: 100px 100px 100px;
+    padding: 20px;
+    height: 150px;
+    overflow-y: scroll;
+    gap: 10px;
+    border: 1px solid var(--borda-cinza);
+}
+
+.check {
+    display: none;
+}
+
+.check-label {
+    width: 100%;
+    text-align: center;
+    font-family: Inter, sans-serif;
+    font-size: 17px;
+    padding: 10px;
+    border: 1px solid var(--borda-cinza);
+    border-radius: 10px;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.check:checked+.check-label {
+    color: var(--vermelho);
+    background-color: #EF444401;
+    border-color: var(--vermelho);
+    box-shadow: 0px 0px 5px var(--laranja);
+}
+
+option[value="cachorrada"] {
+    font-family: Petit;
+    color: var(--laranja);
+    font-size: 20px;
+}
+
+.form-area {
+    padding-top: 10px;
+    padding-left: 10px;
+    height: 100px;
+}
+
+.link-cadastro {
+    color: var(--vermelho);
+    font-size: 16px;
+    font-family: Inter, sans-serif;
+    cursor: pointer;
+}
+
+.link-senha {
+    color: var(--vermelho);
+    font-family: Inter, sans-serif;
+    text-decoration: none;
+    font-size: 14px;
+}

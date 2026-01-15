@@ -1,31 +1,39 @@
+function logout()
+{
+    fetch("/logout", {
+        method: "POST",
+        credentials: "include",
+    })
+    .then(response =>{
+        return response.json()
+    })
+    .then(data =>{
+        alert(data.mensagem)
+        location = "/"
+    })
+}
+
 function select(tipo)
 {
-    let i;
-    const menu_explorar = document.querySelector("#menu-explorar");
-    const menu_matches = document.querySelector("#menu-matches");
-    const menu_chat = document.querySelector("#menu-chat");
-    const menu_perfil = document.querySelector("#menu-perfil");
-    const menu_btn = document.querySelectorAll(".menu-btn");
-
-    for(i = 0; i < menu_btn.length; i++)
+    switch(tipo)
     {
-        menu_btn[i].classList.remove("select");
-    }
-
-    if(tipo == 'explorar')
-    {
-        menu_explorar.classList.add("select");
-    }
-    else if(tipo == 'matches')
-    {
-        menu_matches.classList.add("select")
-    }
-    else if(tipo == 'chat')
-    {
-        menu_chat.classList.add("select")
-    }
-    else if(tipo == 'perfil')
-    {
-        menu_perfil.classList.add("select")
+        case 'explorar':
+            location = "/explorer";
+            break;
+        case 'matches':
+            location = "/matches";
+            break;
+        case 'chat':
+            location = "/chat";
+            break;
+        case 'perfil':
+            location = "/perfil";
+            break;
+        case 'sair':
+            if(confirm("Tem certeza de que deseja sair?"))
+            {
+                logout()
+            }
+            break;
     }
 }

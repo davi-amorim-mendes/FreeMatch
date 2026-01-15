@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreeMatch</title>
+    <link rel="shortcut icon" href="/static/icons/logo-morango.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/css/global.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+</head>
+<body>
+    <section class="landing-page home-page">
+        <div class="container">
+            <header class="header-home">
+                <a href="/explorer">
+                    <img src="/static/icons/logo.png" class="logo-home" id="foto-explorer">
+                </a>
+                <span class="gratuito">
+                    100% grátis
+                </span>
+            </header>
+            <section class="conteudo">
+                <div class="slide-feed">
+                        <img class="slide-foto" id="slide-foto" src="" alt="">
+                        <div class="slide-info-top">
+                            <button class="info-btn slide-margin"><i class="bi bi-info-circle"></i></button>
+                        </div>
+                        <div class="slide-desc slide-margin">
+                            <h1 class="desc-nome"><span id="span-nome"></span> <span class="desc-idade" id="span-idade"></span></h1>
+                            <!-- <h2 class="desc-distancia"><i class="bi bi-geo-alt"></i> 2 km de distância</h2> -->
+                            <p class="desc-sobre" id="desc-sobre"></p>
+                            <div class="desc-interesses">
+                                <span class="interesse i-1" id="inter-1"></span>
+                                <span class="interesse i-2" id="inter-2"></span>
+                                <span class="interesse i-3" id="inter-3"></span>
+                            </div>
+                            <div class="desc-interesses">
+                                <span class="interesse i-relacao" id="i-relacao">
+                                    
+                                </span>
+                            </div>
+                        </div>
+                </div>
+                <div class="interacoes">
+                    <button class="interacao-btn deslike-btn" onclick="proximo_usuario('DESLIKE')"><i class="bi bi-x"></i></button>
+                    <button class="interacao-btn like-btn" onclick="" id="like-btn"><i class="bi bi-suit-heart-fill"></i></button>
+                </div>
+            </section>
+            <div class="menu">
+                <button class="menu-btn select" id="menu-explorar" onclick="select('explorar')"><i class="bi bi-fire"></i></button>
+                <button class="menu-btn" id="menu-matches" onclick="select('matches')"><i class="bi bi-heart"></i></button>
+                <button class="menu-btn" id="menu-chat" onclick="select('chat')"><i class="bi bi-chat"></i></button>
+                <button class="menu-btn" id="menu-perfil" onclick="select('perfil')"><i class="bi bi-person"></i></button>
+                <button class="menu-btn" onclick="select('sair')"><i class="bi bi-power"></i></button>
+            </div>
+        </div>
+        <span class="apoie">
+            <h1 class="apoie-h1">Apoie o FreeMatch!</h1>
+            <img src="/static/pix/pix.png" class="apoie-pix">
+        </span>
+    </section>
+</body>
+<script src="/static/js/menu.js"></script>
+<script>
+    const usuarios = {{ usuarios | tojson }};
+    let indiceAtual = 0;
+
+    function cookie(nome)
+    {
+        return document.cookie.split("; ").find(row => row.startsWith(nome + "="))?.split("=")[1];
+    }
+
+    function carregar_usuarios()
+    {
+        const u = usuarios[indiceAtual];
+
+        const foto = document.querySelector("#slide-foto").src = u.foto;
+        const nome = document.querySelector("#span-nome").textContent = u.nome;
+        const idade = document.querySelector("#span-idade").innerHTML = u.data + " " + `<img class="icon-verificado" src="/static/icons/icon-verificado-vermelho.svg" alt="" srcset="">`;
+        const sobre = document.querySelector("#desc-sobre").textContent = u.sobre;
+        const relacionamento = document.querySelector("#i-relacao").textContent = u.relacionamento;
+        const inter1 = document.querySelector("#inter-1").textContent = u.interesses[0].interesse_id;
+        const inter2 = document.querySelector("#inter-2").textContent = u.interesses[1].interesse_id;
+        const inter3 = document.querySelector("#inter-3").textContent = u.interesses[2].interesse_id;
+        const like_btn = document.querySelector("#like-btn").onclick = () => proximo_usuario('LIKE', u.id);
+    }
+
+    function proximo_usuario(reacao, id)
+    {
+        indiceAtual++
+        if(indiceAtual >= usuarios.length) indiceAtual = 0;
+
+        if(reacao == "LIKE")
+        {
+            const agora = new Date();
+            const sqlDatetime =
+            agora.getFullYear() + "-" +
+            String(agora.getMonth() + 1).padStart(2, "0") + "-" +
+            String(agora.getDate()).padStart(2, "0") + " " +
+            String(agora.getHours()).padStart(2, "0") + ":" +
+            String(agora.getMinutes()).padStart(2, "0") + ":" +
+            String(agora.getSeconds()).padStart(2, "0");
+
+            dados = {datetime: sqlDatetime, id_curtido: id}
+            const csrfToken = cookie("csrf_access_token");
+
+            fetch("/like", {
+                method: "POST",
+                credentials: "include",
+                headers: {"X-CSRF-TOKEN": csrfToken, "Content-Type": "application/json"},
+                body: JSON.stringify(dados)
+            })
+            .then(response =>{
+                if(response.ok) return response.json();
+
+                return response.json().then(errorData =>{
+                    throw new Error(errorData.mensagem || `Erro ${response.status}: Falha ao curtir`)
+                })
+            })
+            .then(data =>{
+                const som = new Audio("static/sounds/like-sound.mp3");
+
+                som.play();
+            })
+            .catch(error =>{
+                alert(error.message)
+            })
+        }
+        else
+        {
+            const som = new Audio("static/sounds/deslike-sound.mp3");
+
+            som.play();
+        }
+
+        carregar_usuarios()
+    }
+
+    carregar_usuarios()
+</script>
+</html>
