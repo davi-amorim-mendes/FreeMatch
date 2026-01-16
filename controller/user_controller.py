@@ -23,7 +23,9 @@ def home():
 @user_bp.route("/matches")
 @jwt_required()
 def matches():
-    return render_template("matches.html")
+    usuario_id = get_jwt_identity()
+    usuarios_matches = MatchService.pegar_usuarios_matchs(usuario_id)
+    return render_template("matches.html", usuarios=usuarios_matches)
 
 @user_bp.route("/chat")
 @jwt_required()

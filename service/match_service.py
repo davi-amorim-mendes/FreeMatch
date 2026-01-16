@@ -19,3 +19,27 @@ class MatchService:
                 interesse["interesse_id"] = nome_interesses.get(id_atual, id_atual)
                 print(interesse["interesse_id"])
         return usuarios_compativeis
+    
+    @staticmethod
+    def like(dados, id_usuario):
+        resposta = MatchRepository.salvar_like(dados, id_usuario)
+        match = MatchRepository.checar_match(id_usuario, dados["id_curtido"])
+        if match:
+            return "MATCH"
+        return "LIKE"
+    
+    @staticmethod
+    def pegar_usuarios_matchs(id):
+        matches = MatchRepository.pegar_matchs(id)
+        usuarios = []
+        for match in matches:
+            usuario = UsuarioRepositorio.buscar_usuario(match["usuario_par"])
+            usuario.pop("email", None)
+            usuario.pop("senha", None)
+            idade = UsuarioService.calcular_idade(usuario["data"])
+            usuario["data"] = idade
+            usuario["datamatch"] = match["data"]
+            usuarios.append(usuario)
+
+        return usuarios
+        

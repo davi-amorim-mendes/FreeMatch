@@ -1,4 +1,5 @@
 import mysql.connector
+from datetime import datetime
 
 def conexao():
     return mysql.connector.connect(host="localhost", user="root", password="DaviSQL2005@", database="freematch")
@@ -86,4 +87,105 @@ class MatchRepository:
             if conn:
                 conn.close()
 
+    @classmethod
+    def salvar_like(cls, dados, id_usuario):
+        conn = None
+        cursor = None
+        resultado = False
+
+        try:
+            conn = conexao()
+            cursor = conn.cursor(dictionary=True, buffered=True)
+            cursor.execute("SELECT * FROM likes WHERE id_usuario=%s AND id_curtido=%s", (id_usuario, dados["id_curtido"]))
+            like_ex = cursor.fetchone()
+            if like_ex:
+                return resultado
+            cursor.execute("INSERT INTO likes(id_usuario, id_curtido, data) values(%s,%s,%s)", (id_usuario, dados["id_curtido"], dados["datetime"]))
+
+            conn.commit()
+            resultado = True
+            return resultado if resultado else False
+        finally:
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
+
+    @classmethod
+    def checar_match(cls, id_usuario, id_curtido):
+        conn = None
+        cursor = None
+        resultado = False
+
+        try:
+            conn = conexao()
+            cursor = conn.cursor(dictionary=True, buffered=True)
+            cursor.execute("SELECT * FROM matches WHERE usuario1=%s AND usuario2=%s", (id_curtido, id_usuario))
+            match_ex1 = cursor.fetchone()
+            if match_ex1:
+                return False
+            cursor.execute("SELECT * FROM matches WHERE usuario1=%s AND usuario2=%s", (id_usuario, id_curtido))
+            match_ex2 = cursor.fetchone()
+            if match_ex2:
+                return False
+            cursor.execute("SELECT * FROM likes WHERE id_usuario=%s AND id_curtido=%s", (id_usuario, id_curtido))
+            like = cursor.fetchone()
+            cursor.execute("SELECT * FROM likes WHERE id_usuario=%s AND id_curtido=%s", (id_curtido, id_usuario))
+            match = cursor.fetchone()
+
+            if like and match:
+                resultado = cls.salvar_match(match)
+             
+            return resultado
+        finally:
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
+
+    @classmethod
+    def salvar_match(cls, match):
+        conn = None
+        cursor = None
+
+        try:
+            conn = conexao()
+            cursor = conn.cursor()
+            agora = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            
+            cursor.execute("INSERT INTO matches(usuario1, usuario2, data) values(%s,%s,%s)", (match["id_usuario"], match["id_curtido"], agora))
+            conn.commit()
+            return True
+        finally:
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
+
+    @classmethod
+    def pegar_matchs(cls, id):
+        conn = None
+        cursor = None
+        matches = []
+        try:
+            conn = conexao()
+            cursor = conn.cursor(dictionary=True)
+            cursor.execute("SELECT * FROM matches WHERE usuario1=%s OR usuario2=%s", (id, id))
+            matches = cursor.fetchall()
+
+            for match in matches:
+                if match["usuario1"] != id:
+                    match["usuario_par"] = match["usuario1"]
+                else:
+                    match["usuario_par"] = match["usuario2"]
+                
+                del match["usuario1"]
+                del match["usuario2"]
+
+            return matches
+        finally:
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
 

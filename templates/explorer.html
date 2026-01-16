@@ -45,6 +45,8 @@
                     <button class="interacao-btn deslike-btn" onclick="proximo_usuario('DESLIKE')"><i class="bi bi-x"></i></button>
                     <button class="interacao-btn like-btn" onclick="" id="like-btn"><i class="bi bi-suit-heart-fill"></i></button>
                 </div>
+                <img src="/static/gifs/match-gif.gif" id="gif-interacao-match">
+                <img src="/static/gifs/like.png" id="gif-interacao-like">
             </section>
             <div class="menu">
                 <button class="menu-btn select" id="menu-explorar" onclick="select('explorar')"><i class="bi bi-fire"></i></button>
@@ -118,9 +120,29 @@
                 })
             })
             .then(data =>{
-                const som = new Audio("static/sounds/like-sound.mp3");
+                if(data.mensagem.trim() === 'MATCH!'){
+                    const gif_match = document.querySelector("#gif-interacao-match");
+                    gif_match.style.display = "flex";
+                    const som = new Audio("static/sounds/match-sound2.wav");
+                    som.play();
+                    setTimeout(() =>{
+                        gif_match.style.display = "none";
+                        carregar_usuarios()
+                    }, 3060)
+                }
+                else
+                {
+                    const gif_like = document.querySelector("#gif-interacao-like");
+                    gif_like.style.display = "flex";
+                    const som = new Audio("static/sounds/like-sound.mp3");
+                    som.play();
 
-                som.play();
+                    setTimeout(() =>{
+                        gif_like.style.display = "none";
+                        carregar_usuarios()
+                    }, 560)
+                }
+                
             })
             .catch(error =>{
                 alert(error.message)
@@ -131,9 +153,10 @@
             const som = new Audio("static/sounds/deslike-sound.mp3");
 
             som.play();
+            carregar_usuarios()
         }
 
-        carregar_usuarios()
+        
     }
 
     carregar_usuarios()

@@ -6,6 +6,13 @@ from service.match_service import MatchService
 match_bp = Blueprint('match', __name__)
 
 @match_bp.route("/like", methods=["POST"])
+@jwt_required()
 def like():
-    print("LIKE")
-    return jsonify({"mensagem": "asfasfa"})
+    dados = request.get_json()
+    id_usuario = get_jwt_identity()
+    resposta = MatchService.like(dados, id_usuario)
+    print(resposta)
+    if resposta == "MATCH":
+        return jsonify({"mensagem": "MATCH!"}), 200
+    else:
+        return jsonify({"mensagem": "LIKE"}), 200
