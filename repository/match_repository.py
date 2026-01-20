@@ -1,8 +1,6 @@
 import mysql.connector
 from datetime import datetime
-
-def conexao():
-    return mysql.connector.connect(host="localhost", user="root", password="DaviSQL2005@", database="freematch")
+from model.database import SQL
 
 class MatchRepository:
     @classmethod
@@ -13,7 +11,7 @@ class MatchRepository:
         interesses_geral = []
 
         try:
-            conn = conexao()
+            conn = SQL.conexao()
             cursor = conn.cursor(dictionary=True)
             cursor.execute("SELECT * FROM usuarios_interesses")
             usuarios = cursor.fetchall()
@@ -38,7 +36,7 @@ class MatchRepository:
         usuario_aux = None
 
         try:
-            conn = conexao()
+            conn = SQL.conexao()
             cursor = conn.cursor(dictionary=True)
             for id in interesses_geral:
                 cursor.execute("SELECT * FROM usuarios WHERE id=%s", (id,))
@@ -75,7 +73,7 @@ class MatchRepository:
         interesses_user = []
 
         try:
-            conn = conexao()
+            conn = SQL.conexao()
             cursor = conn.cursor(dictionary=True)
             cursor.execute("SELECT * FROM usuarios_interesses WHERE usuario_id=%s", (usuario_id,))
 
@@ -94,7 +92,7 @@ class MatchRepository:
         resultado = False
 
         try:
-            conn = conexao()
+            conn = SQL.conexao()
             cursor = conn.cursor(dictionary=True, buffered=True)
             cursor.execute("SELECT * FROM likes WHERE id_usuario=%s AND id_curtido=%s", (id_usuario, dados["id_curtido"]))
             like_ex = cursor.fetchone()
@@ -118,7 +116,7 @@ class MatchRepository:
         resultado = False
 
         try:
-            conn = conexao()
+            conn = SQL.conexao()
             cursor = conn.cursor(dictionary=True, buffered=True)
             cursor.execute("SELECT * FROM matches WHERE usuario1=%s AND usuario2=%s", (id_curtido, id_usuario))
             match_ex1 = cursor.fetchone()
@@ -149,11 +147,15 @@ class MatchRepository:
         cursor = None
 
         try:
-            conn = conexao()
-            cursor = conn.cursor()
+            conn = SQL.conexao()
+            cursor = conn.cursor(dictionary=True)
             agora = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             
             cursor.execute("INSERT INTO matches(usuario1, usuario2, data) values(%s,%s,%s)", (match["id_usuario"], match["id_curtido"], agora))
+
+            match_id = cursor.lastrowid
+
+            cursor.execute("INSERT INTO conversas(id_match) values(%s)", (match_id,))
             conn.commit()
             return True
         finally:
@@ -168,7 +170,7 @@ class MatchRepository:
         cursor = None
         matches = []
         try:
-            conn = conexao()
+            conn = SQL.conexao()
             cursor = conn.cursor(dictionary=True)
             cursor.execute("SELECT * FROM matches WHERE usuario1=%s OR usuario2=%s", (id, id))
             matches = cursor.fetchall()
@@ -178,9 +180,6 @@ class MatchRepository:
                     match["usuario_par"] = match["usuario1"]
                 else:
                     match["usuario_par"] = match["usuario2"]
-                
-                del match["usuario1"]
-                del match["usuario2"]
 
             return matches
         finally:

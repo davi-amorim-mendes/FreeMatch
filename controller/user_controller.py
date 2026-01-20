@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify, render_template, url_for, redirec
 from service.user_service import UsuarioService
 from flask_jwt_extended import create_access_token, jwt_required, JWTManager, get_jwt_identity, get_jwt, set_access_cookies, unset_jwt_cookies, create_refresh_token, set_refresh_cookies
 from service.match_service import MatchService
+from service.chat_service import ChatService
 import os
 import uuid
 
@@ -30,7 +31,14 @@ def matches():
 @user_bp.route("/chat")
 @jwt_required()
 def chat():
-    return render_template("chat.html")
+    id_usuario = get_jwt_identity()
+    lista = ChatService.carregar_conversas(id_usuario)
+    lista_mesclada = []
+    # print(lista[1][0]["id_conversa"])
+    for match, conversa in zip(lista[0], lista[1]):
+        item_completo = {**match, **conversa}
+        lista_mesclada.append(item_completo)
+    return render_template("chat.html", lista=lista_mesclada)
 
 @user_bp.route("/perfil")
 @jwt_required()

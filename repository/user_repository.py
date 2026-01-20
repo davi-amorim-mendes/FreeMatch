@@ -1,19 +1,15 @@
 import os
 from model.user_model import Usuario
-import mysql.connector
 import bcrypt
 import uuid
+from model.database import SQL
 
 PASTA_FOTOS = "static/img/img_perfil"
-
-
-def conexao():
-    return mysql.connector.connect(host="localhost", user="root", password="DaviSQL2005@", database="freematch")
 
 class UsuarioRepositorio:
     @classmethod
     def adicionar(cls, interesses, usuario:Usuario):
-        conn = conexao()
+        conn = SQL.conexao()
         cursor = conn.cursor()
         cursor.execute(
             "INSERT INTO usuarios(id, nome, email, senha, data, genero, generopref, relacionamento, sobre, foto, nivel) values(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
@@ -37,7 +33,7 @@ class UsuarioRepositorio:
         resultado = False
 
         try:
-            conn = conexao()
+            conn = SQL.conexao()
             cursor = conn.cursor(dictionary=True)
             cursor.execute("SELECT * FROM usuarios WHERE email=%s", (usuario.email,))
 
@@ -56,7 +52,7 @@ class UsuarioRepositorio:
         resultado = False
 
         try:
-            conn = conexao()
+            conn = SQL.conexao()
             cursor = conn.cursor(dictionary=True)
             cursor.execute("SELECT * FROM usuarios WHERE email=%s", (email,))
 
@@ -75,7 +71,7 @@ class UsuarioRepositorio:
         resultado = False
 
         try:
-            conn = conexao()
+            conn = SQL.conexao()
             cursor = conn.cursor(dictionary=True)
             cursor.execute("SELECT * FROM usuarios WHERE email=%s", (email,))
             usuario = cursor.fetchone()
@@ -99,7 +95,7 @@ class UsuarioRepositorio:
         resultado = False
 
         try:
-            conn = conexao()
+            conn = SQL.conexao()
             cursor = conn.cursor(dictionary=True)
             cursor.execute("SELECT * FROM usuarios WHERE id=%s", (id,))
             usuario = cursor.fetchone()
@@ -117,7 +113,7 @@ class UsuarioRepositorio:
     def alterar_senha(cls, usuario_id, nova_senha):
         nova_senha_hash = bcrypt.hashpw(nova_senha.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
-        conn = conexao()
+        conn = SQL.conexao()
         cursor = conn.cursor()
         cursor.execute("UPDATE usuarios SET senha=%s WHERE id=%s", (nova_senha_hash, usuario_id))
         conn.commit()
@@ -142,7 +138,7 @@ class UsuarioRepositorio:
     
     @classmethod
     def salvar_foto_db(cls, url, usuario_id):
-        conn = conexao()
+        conn = SQL.conexao()
         cursor = conn.cursor()
 
         cursor.execute("SELECT foto FROM usuarios WHERE id=%s", (usuario_id,))
@@ -168,7 +164,7 @@ class UsuarioRepositorio:
         conn = None
         cursor = None
         
-        conn = conexao()
+        conn = SQL.conexao()
         cursor = conn.cursor()
         cursor.execute("UPDATE usuarios SET sobre=%s WHERE id=%s", (sobre, id))
         conn.commit()

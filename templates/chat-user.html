@@ -209,6 +209,7 @@
         </span>
     </section>
 </body>
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
 <script>
     addEventListener("DOMContentLoaded", function(){
         const area = document.querySelector(".area-chat");
@@ -219,6 +220,8 @@
     {
         location = "/chat"
     }
+
+    const socket = io("http://127.0.0.1:5000/chat", {withCredentials: true})
 </script>
 <script src="/static/js/menu.js"></script>
 </html>

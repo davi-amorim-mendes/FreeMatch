@@ -22,54 +22,22 @@
             <section class="conteudo">
                 <h1 class="desc-chat-h1"><span class="heart-ballon"><i class="bi bi-chat-heart"></i></span> Mensagens</h1>
                 <div class="grid-chat">
-                    <div class="grid-chat-bar">
-                        <div class="grid-chat-img-div">
-                            <img class="grid-chat-img" src="/static/img/lilis.jpg" alt="" srcset="">
-                        </div>
-                        <div class="chat-desc">
-                            <div class="grid-chat-desc">
-                                <p class="principal chat-desc-nome">Ana</p>
-                                <p class="secundario chat-desc-mensagem">Oi! Tudo bem? 🥰</p>
+                    {% if lista %}
+                        {% for conversa in lista %}
+                            <div class="grid-chat-bar" onclick="conversa({{ conversa['id_conversa'] }})">
+                                <div class="grid-chat-img-div">
+                                    <img class="grid-chat-img" src="{{ conversa['foto'] }}" alt="" srcset="">
+                                </div>
+                                <div class="chat-desc">
+                                    <div class="grid-chat-desc">
+                                        <p class="principal chat-desc-nome">{{ conversa["nome"] }}</p>
+                                        <p class="secundario chat-desc-mensagem"></p>
+                                    </div>
+                                    <span class="chat-desc-nova"></span>
+                                </div>
                             </div>
-                            <span class="chat-desc-nova"></span>
-                        </div>
-                    </div>
-                    <div class="grid-chat-bar">
-                        <div class="grid-chat-img-div">
-                            <img class="grid-chat-img" src="/static/img/davi.jpg" alt="" srcset="">
-                        </div>
-                        <div class="chat-desc">
-                            <div class="grid-chat-desc">
-                                <p class="principal chat-desc-nome">Davi</p>
-                                <p class="secundario chat-desc-mensagem">Estive pensando em você... 😏💦</p>
-                            </div>
-                            <span class="chat-desc-nova"></span>
-                        </div>
-                    </div>
-                    <div class="grid-chat-bar">
-                        <div class="grid-chat-img-div">
-                            <img class="grid-chat-img" src="/static/img/indiana.avif" alt="" srcset="">
-                        </div>
-                        <div class="chat-desc">
-                            <div class="grid-chat-desc">
-                                <p class="principal chat-desc-nome">Clarisse</p>
-                                <p class="secundario chat-desc-mensagem">Quando você vem pra Índia? 😳</p>
-                            </div>
-                            <span class="chat-desc-nova"></span>
-                        </div>
-                    </div>
-                    <div class="grid-chat-bar">
-                        <div class="grid-chat-img-div">
-                            <img class="grid-chat-img" src="/static/img/broxa.jpg" alt="" srcset="">
-                        </div>
-                        <div class="chat-desc">
-                            <div class="grid-chat-desc">
-                                <p class="principal chat-desc-nome">Véio Broxa</p>
-                                <p class="secundario chat-desc-mensagem">Já comprei o tadala 🔥🔥🔥</p>
-                            </div>
-                            <span class="chat-desc-nova"></span>
-                        </div>
-                    </div>
+                        {% endfor %}
+                    {% endif %}
                 </div>
             </section>
             <div class="menu">

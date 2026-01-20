@@ -2,12 +2,14 @@ from flask import Flask, redirect, url_for
 from controller.user_controller import user_bp
 from controller.auth_controller import auth_bp
 from controller.match_controller import match_bp
+from controller.chat_controller import ChatNamespace
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 import os
 from dotenv import load_dotenv
 from itsdangerous import URLSafeTimedSerializer
 from datetime import timedelta
+from flask_socketio import SocketIO
 
 load_dotenv()
 
@@ -19,6 +21,7 @@ serializer = URLSafeTimedSerializer(os.getenv("RESET_PASSWORD_KEY"))
 TOKEN_EXPIRY_SECONDS = 3600 # O TOKEN EXPIRA EM 1 HORA
 
 app = Flask(__name__)
+io = SocketIO(app)
 app.config["JWT_SECRET_KEY"] = os.getenv("SESSION_KEY")
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=30)
 app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=30)
@@ -44,6 +47,7 @@ def token_invalido(error):
 def token_expirado(jwt_header, jwt_payload):
     return redirect(url_for("user.landing_page"))
 
+io.on_namespace(ChatNamespace('/chat'))
 
 app.register_blueprint(user_bp)
 app.register_blueprint(auth_bp)
@@ -53,6 +57,4 @@ app.serializer = serializer
 app.token_expiry = TOKEN_EXPIRY_SECONDS
 
 if __name__ == '__main__':
-
-    with app.app_context():
-        app.run(debug=True)
+    io.run(app, debug=True)
