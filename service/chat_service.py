@@ -17,4 +17,13 @@ class ChatService:
         conversas = MsgRepository.listar_conversas(matches_id)
         matches = MatchService.pegar_usuarios_matchs(id_usuario)
 
+        for i, conversa in enumerate(conversas):
+            if conversa:
+                ultima_msg = MsgRepository.obter_ultima_mensagem(conversa['id_conversa'])
+                conversas[i]['ultima_mensagem'] = ultima_msg
+
         return [matches, conversas]
+    
+    @staticmethod
+    def carregar_mensagens(id_conversa):
+        return MsgRepository.listar_mensagens(id_conversa)

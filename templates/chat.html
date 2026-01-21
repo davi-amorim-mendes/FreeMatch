@@ -16,7 +16,7 @@
                     <img src="/static/icons/logo.png" class="logo-home">
                 </a>
                 <span class="gratuito">
-                    4 Conversas
+                    {{ lista | length }} Conversas
                 </span>
             </header>
             <section class="conteudo">
@@ -24,19 +24,32 @@
                 <div class="grid-chat">
                     {% if lista %}
                         {% for conversa in lista %}
-                            <div class="grid-chat-bar" onclick="conversa({{ conversa['id_conversa'] }})">
+                                <div class="grid-chat-bar"
+                                onclick='abrirConversa(
+                                    {{ conversa["id_conversa"] }},
+                                    {{ conversa["nome"] | tojson }},
+                                    {{ conversa["foto"] | tojson }}
+                                )'>
                                 <div class="grid-chat-img-div">
                                     <img class="grid-chat-img" src="{{ conversa['foto'] }}" alt="" srcset="">
                                 </div>
                                 <div class="chat-desc">
                                     <div class="grid-chat-desc">
                                         <p class="principal chat-desc-nome">{{ conversa["nome"] }}</p>
-                                        <p class="secundario chat-desc-mensagem"></p>
+                                        <p class="secundario chat-desc-mensagem">
+                                            {% if conversa.get('ultima_mensagem') %}
+                                                {{ conversa['ultima_mensagem']['texto'][:30] }}
+                                            {% else %}
+                                                Inicie uma conversa
+                                            {% endif %}
+                                        </p>
                                     </div>
                                     <span class="chat-desc-nova"></span>
                                 </div>
                             </div>
                         {% endfor %}
+                    {% else %}
+                            <p>Nenhuma conversa ainda.</p>
                     {% endif %}
                 </div>
             </section>
@@ -55,4 +68,12 @@
     </section>
 </body>
 <script src="/static/js/menu.js"></script>
+<script>
+    function abrirConversa(id_conversa, nome, foto)
+    {
+        sessionStorage.setItem('chat_nome', nome);
+        sessionStorage.setItem('chat_foto', foto);
+        location = `/chat-user/${id_conversa}`;
+    }
+</script>
 </html>

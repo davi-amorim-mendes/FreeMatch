@@ -48,10 +48,14 @@ def perfil():
     usuario = UsuarioService.usuario_info(usuario_id)
     return render_template("perfil.html", usuario=usuario)
 
-@user_bp.route("/chat-user")
+@user_bp.route("/chat-user/<int:id_conversa>")
 @jwt_required()
-def chat_user():
-    return render_template("chat-user.html")
+def chat_user(id_conversa):
+    id_usuario = get_jwt_identity()
+
+    # BUSCA INFORMAÇÕES DA CONVERSA E DO MATCH
+    mensagens = ChatService.carregar_mensagens(id_conversa)
+    return render_template("chat-user.html", id_conversa=id_conversa, mensagens=mensagens)
 
 @user_bp.route("/cadastro", methods=["POST"])
 def cadastro_post():
@@ -136,3 +140,9 @@ def refresh():
     set_access_cookies(response, token)
 
     return response
+
+@user_bp.route("/get-id")
+@jwt_required()
+def get_id():
+    id_usuario = get_jwt_identity()
+    return jsonify({"id_usuario": id_usuario}), 200
