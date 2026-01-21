@@ -43,3 +43,7 @@ class MatchService:
 
         return usuarios
         
+    @staticmethod
+    def qtd_likes(id_usuario):
+        qtd_likes = MatchRepository.pegar_likes(id_usuario)
+        return qtd_likes

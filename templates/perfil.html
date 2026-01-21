@@ -22,13 +22,16 @@
             <section class="conteudo-perfil">
                 <div class="perfil-div">
                     <div class="perfil-imagem-sem">
-                        <p id="perfil-nome">D</p>
+                        <p id="perfil-nome">{{ usuario[0]["nome"][0] }}</p>
                         {% if usuario[0]["foto"] %}
                             <img src="{{ usuario[0]['foto'] }}" class="grid-chat-img" id="img-perfil">
                         {% else %}
                             <img src="" class="grid-chat-img" id="img-perfil">
                         {% endif %}
                     </div>
+                    {% if not usuario[0]["foto"] %}
+                        <p class="principal" id="sem-foto" style="text-align:center; margin-top:25px;">Seu perfil só será recomendado a outros usuários caso haja foto.</p>
+                    {% endif %}
                     <label class="editar-foto-perfil-label" for="foto-perfil">
                         <input class="editar-foto-perfil-hidden" type="file" name="foto-perfil" id="foto-perfil" accept="image/*">
                         <i class="bi bi-camera"></i>
@@ -39,17 +42,17 @@
                     <div class="perfil-grid">
                         <div class="perfil-grid-card">
                             <i class="bi bi-arrow-through-heart grid-card-icon-rosa"></i>
-                            <p class="principal num-likes">127</p>
+                            <p class="principal num-likes">{{ likes }}</p>
                             <p class="secundario">Likes</p>
                         </div>
                         <div class="perfil-grid-card">
                             <i class="bi bi-emoji-heart-eyes grid-card-icon-laranja"></i>
-                            <p class="principal num-likes">23</p>
+                            <p class="principal num-likes">{{ matches | length }}</p>
                             <p class="secundario">Matches</p>
                         </div>
                         <div class="perfil-grid-card">
                             <i class="bi bi-envelope-heart grid-card-icon-rosa"></i>
-                            <p class="principal num-likes">18</p>
+                            <p class="principal num-likes">{{ qtd_msg }}</p>
                             <p class="secundario">Mensagens</p>
                         </div>
                     </div>
@@ -70,6 +73,7 @@
                     <p class="principal perfil-texto">100% Gratuito sempre!</p>
                     <p class="secundario perfil-texto">Todos os recursos estão liberados para você.<br>Aproveite sem limites!</p>
                 </div>
+                <p class="excluir" id="excluir" onclick="deletar()">Excluir conta</p>
             </section>
             <div class="menu">
                 <button class="menu-btn" id="menu-explorar" onclick="select('explorar')"><i class="bi bi-fire"></i></button>
@@ -87,4 +91,28 @@
 </body>
 <script src="/static/js/menu.js"></script>
 <script src="/static/js/perfil.js"></script>
+<script>
+    function cookie(nome)
+    {
+        return document.cookie.split("; ").find(row => row.startsWith(nome + "="))?.split("=")[1];
+    }
+
+    function deletar()
+    {
+        csrfToken = cookie('csrf_access_token')
+        if(!confirm("Deseja realmente deletar sua conta? Essa ação não pode ser desfeita.")) return;
+        fetch("/deletar", {
+            method: "DELETE",
+            credentials: "include",
+            headers: {"X-CSRF-TOKEN": csrfToken}
+        })
+        .then(response =>{
+            return response.json();
+        })
+        .then(data =>{
+            alert(data.mensagem);
+            location = "/";
+        })
+    }
+</script>
 </html>

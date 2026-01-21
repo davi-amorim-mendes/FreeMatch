@@ -27,7 +27,8 @@ document.querySelector("#foto-perfil").addEventListener('change', function(){
     })
     .then(data =>{
         alert(data.mensagem)
-
+        const texto_foto = document.querySelector("#sem-foto");
+        texto_foto.remove()
         img_perfil = document.querySelector("#img-perfil")
         img_perfil.src = data.url
     })

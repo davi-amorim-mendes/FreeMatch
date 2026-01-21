@@ -188,3 +188,59 @@ class MatchRepository:
             if conn:
                 conn.close()
 
+    @classmethod
+    def pegar_likes(cls, id_usuario):
+        conn = None
+        cursor = None
+
+        try:
+            conn = SQL.conexao()
+            cursor = conn.cursor(dictionary=True)
+
+            cursor.execute("SELECT COUNT(*) AS total FROM likes WHERE id_curtido=%s", (id_usuario,))
+
+            likes = cursor.fetchone()
+            qtd_likes = likes["total"]
+
+            return qtd_likes
+        finally:
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
+
+    @classmethod
+    def excluir_match(cls, id_usuario):
+        conn = None
+        cursor = None
+
+        try:
+            conn = SQL.conexao()
+            cursor = conn.cursor()
+
+            cursor.execute("DELETE FROM matches WHERE usuario1=%s OR usuario2=%s", (id_usuario, id_usuario))
+            conn.commit()
+            return
+        finally:
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
+
+    @classmethod
+    def excluir_like(cls, id_usuario):
+        conn = None
+        cursor = None
+
+        try:
+            conn = SQL.conexao()
+            cursor = conn.cursor()
+
+            cursor.execute("DELETE FROM likes WHERE id_usuario=%s OR id_curtido=%s", (id_usuario, id_usuario))
+            conn.commit()
+            return
+        finally:
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()

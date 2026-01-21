@@ -1,6 +1,7 @@
 from model.user_model import Usuario
 from repository.user_repository import UsuarioRepositorio
 from repository.match_repository import MatchRepository
+from repository.msg_repository import MsgRepository
 from datetime import date, datetime
 class UsuarioService:
     @staticmethod
@@ -67,3 +68,36 @@ class UsuarioService:
             UsuarioRepositorio.editar_sobre(dado, id)
 
         return
+    
+    @staticmethod
+    def excluir_conta(id_usuario):
+        try:
+            # Busca os matches do usuário
+            matches = MatchRepository.pegar_matchs(id_usuario)
+            
+            # Se houver matches, exclui conversas e mensagens
+            if matches:
+                conversas = MsgRepository.listar_conversas(matches)
+                
+                if conversas:
+                    for conversa in conversas:
+                        # Verifica se a conversa existe antes de tentar excluir
+                        if conversa and conversa.get("id_conversa"):
+                            MsgRepository.excluir_msg(conversa["id_conversa"])
+                            MsgRepository.excluir_conversa(conversa["id_conversa"])
+            
+            # Exclui matches e likes
+            MatchRepository.excluir_match(id_usuario)
+            MatchRepository.excluir_like(id_usuario)
+            
+            # Exclui interesses
+            UsuarioRepositorio.excluir_interesse(id_usuario)
+            
+            # IMPORTANTE: Exclui o usuário por último
+            UsuarioRepositorio.excluir_usuario(id_usuario)
+            
+            return True
+            
+        except Exception as e:
+            print(f"Erro ao excluir conta: {e}")
+            return False

@@ -78,3 +78,60 @@ class MsgRepository:
                 cursor.close()
             if conn:
                 conn.close()
+
+    @classmethod
+    def qtd_msg(cls, conversas):
+        conn = None
+        cursor = None
+
+        try:
+            conn = SQL.conexao()
+            cursor = conn.cursor(dictionary=True)
+            mensagens = []
+            for conversa in conversas:
+                cursor.execute("SELECT COUNT(*) AS total FROM mensagens WHERE id_conversa=%s", (conversa["id_conversa"],))
+                mensagem = cursor.fetchone()
+                mensagens.append(mensagem)
+
+            return mensagens
+        finally:
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
+
+    @classmethod
+    def excluir_msg(cls, id_conversa):
+        conn = None
+        cursor = None
+
+        try:
+            conn = SQL.conexao()
+            cursor = conn.cursor()
+
+            cursor.execute("DELETE FROM mensagens WHERE id_conversa=%s", (id_conversa,))
+            conn.commit()
+            return
+        finally:
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
+
+    @classmethod
+    def excluir_conversa(cls, id_conversa):
+        conn = None
+        cursor = None
+
+        try:
+            conn = SQL.conexao()
+            cursor = conn.cursor()
+
+            cursor.execute("DELETE FROM conversas WHERE id_conversa=%s", (id_conversa,))
+            conn.commit()
+            return
+        finally:
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()

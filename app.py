@@ -18,13 +18,12 @@ if not RESET_PASSWORD_KEY:
     raise ValueError("A variável 'RESET_PASSWORD_KEY' não está definida")
 
 serializer = URLSafeTimedSerializer(os.getenv("RESET_PASSWORD_KEY"))
-TOKEN_EXPIRY_SECONDS = 3600 # O TOKEN EXPIRA EM 1 HORA
+TOKEN_EXPIRY_SECONDS = 3600 # O TOKEN EXPIRA EM 1 HORA PARA REDEFINIR SENHA
 
 app = Flask(__name__)
 
 app.config["JWT_SECRET_KEY"] = os.getenv("SESSION_KEY")
-app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=30)
-app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=30)
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=17)
 app.config['SERVER_NAME'] = '127.0.0.1:5000'
 app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
 app.config["JWT_COOKIE_CSRF_PROTECT"] = True

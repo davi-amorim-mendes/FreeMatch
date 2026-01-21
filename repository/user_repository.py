@@ -172,3 +172,39 @@ class UsuarioRepositorio:
         conn.close()
 
         return
+    
+    @classmethod
+    def excluir_interesse(cls, id_usuario):
+        conn = None
+        cursor = None
+
+        try:
+            conn = SQL.conexao()
+            cursor = conn.cursor()
+
+            cursor.execute("DELETE FROM usuarios_interesses WHERE usuario_id=%s", (id_usuario,))
+            conn.commit()
+            return
+        finally:
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
+    
+    @classmethod
+    def excluir_usuario(cls, id_usuario):
+        conn = None
+        cursor = None
+
+        try:
+            conn = SQL.conexao()
+            cursor = conn.cursor()
+
+            cursor.execute("DELETE FROM usuarios WHERE id=%s", (id_usuario,))
+            conn.commit()
+            return True
+        finally:
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()

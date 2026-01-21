@@ -46,7 +46,10 @@ def perfil():
     usuario_id = get_jwt_identity()
     # print(usuario["usuario_foto"])
     usuario = UsuarioService.usuario_info(usuario_id)
-    return render_template("perfil.html", usuario=usuario)
+    likes = MatchService.qtd_likes(usuario_id)
+    matches = MatchService.pegar_usuarios_matchs(usuario_id)
+    mensagens = ChatService.qtd_msg(usuario_id)
+    return render_template("perfil.html", usuario=usuario, likes=likes, matches=matches, qtd_msg=mensagens)
 
 @user_bp.route("/chat-user/<int:id_conversa>")
 @jwt_required()
@@ -81,14 +84,9 @@ def login_post():
         identity=login["id"],
     )
 
-    refresh_token = create_refresh_token(
-        identity=login["id"]
-    )
-
     response = jsonify({"mensagem": "Login realizado com sucesso!", "redirect": True})
 
     set_access_cookies(response, token)
-    set_refresh_cookies(response, refresh_token)
 
     return response
 
@@ -146,3 +144,10 @@ def refresh():
 def get_id():
     id_usuario = get_jwt_identity()
     return jsonify({"id_usuario": id_usuario}), 200
+
+@user_bp.route("/deletar", methods=["DELETE"])
+@jwt_required()
+def deletar_conta():
+    id_usuario = get_jwt_identity()
+    UsuarioService.excluir_conta(id_usuario)
+    return jsonify({"mensagem": "Usuário deletado com sucesso!"}), 200

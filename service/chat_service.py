@@ -27,3 +27,16 @@ class ChatService:
     @staticmethod
     def carregar_mensagens(id_conversa):
         return MsgRepository.listar_mensagens(id_conversa)
+    
+    @staticmethod
+    def qtd_msg(id_usuario):
+        matches = MatchRepository.pegar_matchs(id_usuario)
+        conversas = MsgRepository.listar_conversas(matches)
+        mensagens = MsgRepository.qtd_msg(conversas)
+        qtd_msg = 0
+
+        for mensagem in mensagens:
+            qtd_msg += mensagem["total"]
+
+        return qtd_msg
+

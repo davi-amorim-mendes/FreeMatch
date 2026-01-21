@@ -16,7 +16,7 @@
                     <img src="/static/icons/logo.png" class="logo-home">
                 </a>
                 <span class="gratuito">
-                    5 Matches
+                    {{ usuarios | length }} Matches
                 </span>
             </header>
             <section class="conteudo conteudo-match">
@@ -24,7 +24,7 @@
                 <div class="grid-matches">
                     {% if usuarios %}
                         {% for usuario in usuarios %}
-                            <div class="grid-match-div">
+                            <div class="grid-match-div" onclick="select('chat')">
                                 <img class="grid-foto" src="{{ usuario['foto'] }}" alt="">
                                 <div class="grid-match-desc slide-margin">
                                     <p class="principal grid-nome">{{ usuario["nome"] }}, <span class="grid-idade">{{ usuario["data"]}}</span></p>
@@ -32,6 +32,8 @@
                                 </div>
                             </div>
                         {% endfor %}
+                    {% else %}
+                        <p class="principal" style="margin-left: 20px">Nenhum match ainda.</p>
                     {% endif %}
                 </div>
             </section>
