@@ -45,7 +45,6 @@ class UsuarioService:
             id_atual = interesse["interesse_id"]
 
             interesse["interesse_id"] = nome_interesses.get(id_atual, id_atual)
-            # print(interesse["interesse_id"])
 
         return [usuario, interesses]
         

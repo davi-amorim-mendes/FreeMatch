@@ -3,7 +3,10 @@ from service.email_service import EmailService
 from repository.user_repository import UsuarioRepositorio
 from model.user_model import Usuario
 from itsdangerous import SignatureExpired, BadTimeSignature
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 class AuthService:
     @staticmethod
     def senha_esquecida(email):
@@ -16,8 +19,8 @@ class AuthService:
         token = current_app.serializer.dumps(usuario["id"])
 
         # CRIA O LINK DE REDEFINIR SENHA
-        reset_link_base = f"http://{current_app.config['SERVER_NAME']}/redefinir-senha?token="
-        reset_link = reset_link_base + token
+        base_url = os.getenv("BASE_URL", f"http://{current_app.config.get('SERVER_NAME', 'localhost:5000')}")
+        reset_link = f"{base_url}/redefinir-senha?token={token}"
 
         # ENVIA O EMAIL
         return EmailService.enviar_email_recuperacao(email, reset_link)

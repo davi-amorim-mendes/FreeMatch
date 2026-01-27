@@ -18,6 +18,7 @@ def home():
     # ADICIONAR O CÓDIGO DA RECOMENDAÇÃO POR INTERESSES
     # PEGA O ID DO USUÁRIO DO TOKEN
     usuario_id = get_jwt_identity()
+    # print(usuario_id)
     usuarios_compativeis = MatchService.filtrar_interesses(usuario_id)
     return render_template("explorer.html", usuarios=usuarios_compativeis)
 

@@ -1,3 +1,4 @@
+from psycopg2.extras import RealDictCursor
 from model.database import SQL
 
 class MsgRepository:
@@ -23,7 +24,7 @@ class MsgRepository:
         cursor = None
         try:
             conn = SQL.conexao()
-            cursor = conn.cursor(dictionary=True)
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
             cursor.execute("SELECT id_remetente, texto, criada_em FROM mensagens WHERE id_conversa=%s ORDER BY criada_em", (id_conversa,))
             mensagens = cursor.fetchall()
 
@@ -47,7 +48,7 @@ class MsgRepository:
 
         try:
             conn = SQL.conexao()
-            cursor = conn.cursor(dictionary=True)
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
 
             for match in matches:
                 cursor.execute("SELECT * FROM conversas WHERE id_match=%s", (match["id_match"],))
@@ -66,7 +67,7 @@ class MsgRepository:
         cursor = None
         try:
             conn = SQL.conexao()
-            cursor = conn.cursor(dictionary=True)
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
             cursor.execute(
                 "SELECT texto, criada_em FROM mensagens WHERE id_conversa=%s ORDER BY criada_em DESC LIMIT 1", 
                 (id_conversa,)
@@ -86,7 +87,7 @@ class MsgRepository:
 
         try:
             conn = SQL.conexao()
-            cursor = conn.cursor(dictionary=True)
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
             mensagens = []
             for conversa in conversas:
                 cursor.execute("SELECT COUNT(*) AS total FROM mensagens WHERE id_conversa=%s", (conversa["id_conversa"],))

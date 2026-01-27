@@ -1,5 +1,5 @@
-import mysql.connector
 from datetime import datetime
+from psycopg2.extras import RealDictCursor
 from model.database import SQL
 
 class MatchRepository:
@@ -12,7 +12,7 @@ class MatchRepository:
 
         try:
             conn = SQL.conexao()
-            cursor = conn.cursor(dictionary=True)
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
             cursor.execute("SELECT * FROM usuarios_interesses")
             usuarios = cursor.fetchall()
 
@@ -37,7 +37,7 @@ class MatchRepository:
 
         try:
             conn = SQL.conexao()
-            cursor = conn.cursor(dictionary=True)
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
             for id in interesses_geral:
                 cursor.execute("SELECT * FROM usuarios WHERE id=%s", (id,))
                 usuario_aux = cursor.fetchone()
@@ -74,7 +74,7 @@ class MatchRepository:
 
         try:
             conn = SQL.conexao()
-            cursor = conn.cursor(dictionary=True)
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
             cursor.execute("SELECT * FROM usuarios_interesses WHERE usuario_id=%s", (usuario_id,))
 
             interesses_user = cursor.fetchall()
@@ -93,7 +93,7 @@ class MatchRepository:
 
         try:
             conn = SQL.conexao()
-            cursor = conn.cursor(dictionary=True, buffered=True)
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
             cursor.execute("SELECT * FROM likes WHERE id_usuario=%s AND id_curtido=%s", (id_usuario, dados["id_curtido"]))
             like_ex = cursor.fetchone()
             if like_ex:
@@ -117,7 +117,7 @@ class MatchRepository:
 
         try:
             conn = SQL.conexao()
-            cursor = conn.cursor(dictionary=True, buffered=True)
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
             cursor.execute("SELECT * FROM matches WHERE usuario1=%s AND usuario2=%s", (id_curtido, id_usuario))
             match_ex1 = cursor.fetchone()
             if match_ex1:
@@ -148,12 +148,12 @@ class MatchRepository:
 
         try:
             conn = SQL.conexao()
-            cursor = conn.cursor(dictionary=True)
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
             agora = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             
-            cursor.execute("INSERT INTO matches(usuario1, usuario2, data) values(%s,%s,%s)", (match["id_usuario"], match["id_curtido"], agora))
+            cursor.execute("INSERT INTO matches(usuario1, usuario2, data) values(%s,%s,%s) RETURNING id_match", (match["id_usuario"], match["id_curtido"], agora))
 
-            match_id = cursor.lastrowid
+            match_id = cursor.fetchone()["id_match"]
 
             cursor.execute("INSERT INTO conversas(id_match) values(%s)", (match_id,))
             conn.commit()
@@ -171,7 +171,7 @@ class MatchRepository:
         matches = []
         try:
             conn = SQL.conexao()
-            cursor = conn.cursor(dictionary=True)
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
             cursor.execute("SELECT * FROM matches WHERE usuario1=%s OR usuario2=%s", (id, id))
             matches = cursor.fetchall()
 
@@ -195,7 +195,7 @@ class MatchRepository:
 
         try:
             conn = SQL.conexao()
-            cursor = conn.cursor(dictionary=True)
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
 
             cursor.execute("SELECT COUNT(*) AS total FROM likes WHERE id_curtido=%s", (id_usuario,))
 

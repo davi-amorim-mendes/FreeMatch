@@ -127,9 +127,12 @@
         // ==================== SOCKET.IO ====================
         console.log('Inicializando Socket.IO...');
         
-        const socket = io("http://127.0.0.1:5000", {
+        const socket = io({
             withCredentials: true,
-            transports: ['websocket', 'polling']
+            transports: ['websocket', 'polling'],
+            reconnection: true,
+            reconnectionDelay: 1000,
+            reconnectionAttempts: 5 
         });
 
         socket.on('connect', async () => {

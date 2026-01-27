@@ -1,9 +1,12 @@
-import mysql.connector
+import psycopg2
 
 class SQL:
     @staticmethod
     def conexao():
-        return mysql.connector.connect(host="localhost",
-                                       user="root",
-                                       password="DaviSQL2005@",
-                                       database="freematch")
+        return psycopg2.connect(
+            host="localhost",
+            user="postgres",
+            password="DaviSQL2005@",
+            database="freematch",
+            port=5432
+        )

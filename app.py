@@ -22,13 +22,16 @@ TOKEN_EXPIRY_SECONDS = 3600 # O TOKEN EXPIRA EM 1 HORA PARA REDEFINIR SENHA
 
 app = Flask(__name__)
 
+# DETECTAR AMBIENTE
+IS_PRODUCTION = os.getenv("ENVIRONMENT", "development") == "production"
+ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "*").split(",")
+
 app.config["JWT_SECRET_KEY"] = os.getenv("SESSION_KEY")
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=17)
-app.config['SERVER_NAME'] = '127.0.0.1:5000'
 app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
 app.config["JWT_COOKIE_CSRF_PROTECT"] = True
-app.config["JWT_COOKIE_SECURE"] = True
-app.config["JWT_COOKIE_SAMESITE"] = "Lax"
+app.config["JWT_COOKIE_SECURE"] = IS_PRODUCTION
+app.config["JWT_COOKIE_SAMESITE"] = "None" if IS_PRODUCTION else "Lax"
 app.config["JWT_ACCESS_COOKIE_PATH"] = "/"
 
 socketio = SocketIO(app, cors_allowed_origins="*", cookie=True)
@@ -59,4 +62,5 @@ app.serializer = serializer
 app.token_expiry = TOKEN_EXPIRY_SECONDS
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    port = int(os.getenv('PORT', 5000))
+    socketio.run(app, debug=False, host='0.0.0.0', port=port)

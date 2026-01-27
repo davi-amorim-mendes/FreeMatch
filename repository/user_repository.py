@@ -2,6 +2,7 @@ import os
 from model.user_model import Usuario
 import bcrypt
 import uuid
+from psycopg2.extras import RealDictCursor
 from model.database import SQL
 
 PASTA_FOTOS = "static/img/img_perfil"
@@ -34,7 +35,7 @@ class UsuarioRepositorio:
 
         try:
             conn = SQL.conexao()
-            cursor = conn.cursor(dictionary=True)
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
             cursor.execute("SELECT * FROM usuarios WHERE email=%s", (usuario.email,))
 
             resultado = cursor.fetchone()
@@ -53,7 +54,7 @@ class UsuarioRepositorio:
 
         try:
             conn = SQL.conexao()
-            cursor = conn.cursor(dictionary=True)
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
             cursor.execute("SELECT * FROM usuarios WHERE email=%s", (email,))
 
             resultado = cursor.fetchone()
@@ -72,7 +73,7 @@ class UsuarioRepositorio:
 
         try:
             conn = SQL.conexao()
-            cursor = conn.cursor(dictionary=True)
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
             cursor.execute("SELECT * FROM usuarios WHERE email=%s", (email,))
             usuario = cursor.fetchone()
 
@@ -96,7 +97,7 @@ class UsuarioRepositorio:
 
         try:
             conn = SQL.conexao()
-            cursor = conn.cursor(dictionary=True)
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
             cursor.execute("SELECT * FROM usuarios WHERE id=%s", (id,))
             usuario = cursor.fetchone()
             if not usuario:
