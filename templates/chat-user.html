@@ -128,11 +128,10 @@
         console.log('Inicializando Socket.IO...');
         
         const socket = io({
-            withCredentials: true,
-            transports: ['polling', 'websocket'],
-            reconnection: true,
-            reconnectionDelay: 1000,
-            reconnectionAttempts: 5 
+            auth: {
+                token: getCookie("access_token_cookie")
+            },
+            transports: ['websocket']
         });
 
         socket.on('connect', async () => {
