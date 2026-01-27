@@ -34,7 +34,7 @@ app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=17)
 app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
 app.config["JWT_COOKIE_CSRF_PROTECT"] = True
 app.config["JWT_COOKIE_SECURE"] = IS_PRODUCTION
-app.config["JWT_COOKIE_SAMESITE"] = "True" if IS_PRODUCTION else "Lax"
+app.config["JWT_COOKIE_SAMESITE"] = "Lax"
 app.config["JWT_ACCESS_COOKIE_PATH"] = "/"
 
 socketio = SocketIO(app, cors_allowed_origins=ALLOWED_ORIGINS, cookie=True, transports=['websocket', 'polling'], async_mode='eventlet', logger=True, engineio_logger=True)
