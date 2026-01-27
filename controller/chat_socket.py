@@ -15,8 +15,8 @@ def init_socketio(socketio):
         
         try:
             payload = decode_token(token)
-            usuario_id = payload["sub"]
-            print(f"Usuário {usuario_id} conectado ao chat")
+            # usuario_id = payload["sub"]
+            print(f"Usuário conectado ao chat")
             return True
         except Exception as e:
             print(f"Erro ao decodificar token: {e}")

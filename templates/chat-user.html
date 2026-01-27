@@ -131,7 +131,8 @@
             auth: {
                 token: getCookie("access_token_cookie")
             },
-            transports: ['websocket']
+            transports: ['websocket'],
+            reconnection: true
         });
 
         socket.on('connect', async () => {
