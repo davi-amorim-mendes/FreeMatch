@@ -34,7 +34,26 @@ app.config["JWT_COOKIE_SECURE"] = IS_PRODUCTION
 app.config["JWT_COOKIE_SAMESITE"] = "None" if IS_PRODUCTION else "Lax"
 app.config["JWT_ACCESS_COOKIE_PATH"] = "/"
 
-socketio = SocketIO(app, cors_allowed_origins="*", cookie=True, transports=['websocket', 'polling'], async_mode='threading')
+# ============= CONFIGURAÇÃO OTIMIZADA DO SOCKETIO =============
+print("🔧 Configurando SocketIO...")
+socketio = SocketIO(
+    app, 
+    cors_allowed_origins="*",  # Permite todas as origens
+    async_mode='threading',     # Modo assíncrono compatível com Render
+    logger=True,                # Ativa logs para debug
+    engineio_logger=True,       # Ativa logs do engine.io
+    ping_timeout=120,           # Aumenta timeout para 120s (era 60)
+    ping_interval=25,           # Intervalo de ping
+    max_http_buffer_size=1e8,   # Buffer maior
+    transports=['polling', 'websocket'],  # Polling primeiro
+    # Configurações adicionais para evitar timeout
+    allow_upgrades=True,        # Permite upgrade de polling para websocket
+    http_compression=True,      # Compressão HTTP
+    compression_threshold=1024, # Limite de compressão
+    cookie=False,               # Desabilita cookie do Socket.IO (usamos JWT)
+    manage_session=False        # Não gerencia sessão automaticamente
+)
+print("✅ SocketIO configurado!")
 
 CORS(app, origins=ALLOWED_ORIGINS, supports_credentials=True, allow_headers=["Authorization", "Content-Type"])
 jwt = JWTManager(app)
@@ -51,9 +70,13 @@ def token_invalido(error):
 def token_expirado(jwt_header, jwt_payload):
     return redirect(url_for("user.landing_page"))
 
+# Inicializa eventos do Socket.IO
+print("🔌 Inicializando eventos do SocketIO...")
 from controller.chat_socket import init_socketio
 init_socketio(socketio)
+print("✅ Eventos registrados!")
 
+# Registra blueprints
 app.register_blueprint(user_bp)
 app.register_blueprint(auth_bp)
 app.register_blueprint(match_bp)
@@ -61,6 +84,23 @@ app.register_blueprint(match_bp)
 app.serializer = serializer
 app.token_expiry = TOKEN_EXPIRY_SECONDS
 
+# Rota de health check para o Render
+@app.route('/health')
+def health():
+    return {'status': 'ok'}, 200
+
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
-    socketio.run(app, debug=False, host='0.0.0.0', port=port, allow_unsafe_werkzeug=True)
+    print(f"🚀 Iniciando servidor na porta {port}...")
+    print(f"🌍 Ambiente: {'PRODUÇÃO' if IS_PRODUCTION else 'DESENVOLVIMENTO'}")
+    print(f"🔗 CORS permitido: {ALLOWED_ORIGINS}")
+    
+    # Configuração adequada para Render
+    socketio.run(
+        app, 
+        debug=False, 
+        host='0.0.0.0', 
+        port=port,
+        allow_unsafe_werkzeug=True,  # Necessário para algumas versões
+        log_output=True              # Exibe logs
+    )
