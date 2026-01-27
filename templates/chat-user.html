@@ -49,11 +49,9 @@
             <img src="/static/pix/pix.png" class="apoie-pix">
         </span>
     </section>
-
-    <!-- Socket.IO Client -->
-    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
-    
-    <script>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.min.js"></script>
+<script>
         // ==================== CONFIGURAÇÃO ====================
         const idConversa = {{ id_conversa }};
         let idUsuarioLogado = null;
@@ -63,6 +61,15 @@
         const inputMensagem = document.getElementById('mensagem-input');
 
         // ==================== FUNÇÕES AUXILIARES ====================
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) {
+                return parts.pop().split(';').shift();
+            }
+            return null;
+        }
+
         async function carregarIdUsuario() {
             try {
                 const response = await fetch("/get-id", {
@@ -117,114 +124,71 @@
             window.location.href = '/chat';
         }
 
-        // ==================== SOCKET.IO - VERSÃO CORRIGIDA ====================
-        console.log('🔌 Inicializando Socket.IO...');
+        // ==================== SOCKET.IO ====================
+        console.log('Inicializando Socket.IO...');
         
-        // CORREÇÃO CRÍTICA: Configuração simplificada
         const socket = io({
-            // Não especifica URL - usa o mesmo domínio automaticamente
-            path: '/socket.io/',
-            transports: ['polling'],  // FORÇA APENAS POLLING (mais estável)
-            upgrade: false,           // NÃO tenta fazer upgrade para WebSocket
-            rememberUpgrade: false,
             withCredentials: true,
+            transports: ['polling', 'websocket'],
             reconnection: true,
             reconnectionDelay: 1000,
-            reconnectionAttempts: 3,
-            timeout: 20000,
-            autoConnect: true,        // Conecta automaticamente
-            forceNew: false
+            reconnectionAttempts: 5 
         });
 
-        // Listeners de conexão
-        socket.on('connect', async function() {
-            console.log('✅ CONECTADO!');
-            console.log('🆔 Socket ID:', socket.id);
-            console.log('🚀 Transporte:', socket.io.engine.transport.name);
-            
-            // Carrega ID do usuário
+        socket.on('connect', async () => {
+            console.log('✅ Conectado ao servidor');
             await carregarIdUsuario();
-            
-            // Entra na conversa
-            console.log('📥 Entrando na conversa:', idConversa);
             socket.emit('entrar_conversa', { id_conversa: idConversa });
         });
 
-        socket.on('disconnect', function(reason) {
-            console.log('⚠️ Desconectado:', reason);
+        socket.on('disconnect', () => {
+            console.log('⚠️ Desconectado do servidor');
         });
 
-        socket.on('connect_error', function(error) {
-            console.error('❌ Erro de conexão:', error.message);
-            console.error('Detalhes:', error);
+        socket.on('connect_error', (error) => {
+            console.error('❌ Erro de conexão:', error);
         });
 
-        socket.on('error', function(error) {
-            console.error('❌ Erro:', error);
-        });
-
-        // Eventos do chat
-        socket.on('historico_mensagens', function(data) {
+        socket.on('historico_mensagens', (data) => {
             console.log('📜 Histórico recebido:', data);
             areaChat.innerHTML = '';
             if (data.mensagens && data.mensagens.length > 0) {
-                data.mensagens.forEach(function(msg) {
+                data.mensagens.forEach(msg => {
                     adicionarMensagem(msg.id_remetente, msg.texto, msg.criada_em);
                 });
-            } else {
-                console.log('📭 Nenhuma mensagem no histórico');
             }
             scrollParaBaixo();
         });
 
-        socket.on('nova_mensagem', function(data) {
+        socket.on('nova_mensagem', (data) => {
             console.log('💬 Nova mensagem:', data);
             adicionarMensagem(data.id_remetente, data.texto, data.criada_em);
             scrollParaBaixo();
         });
 
-        socket.on('erro', function(data) {
-            console.error('❌ Erro do servidor:', data.mensagem);
-            alert('Erro: ' + data.mensagem);
-        });
-
-        // ==================== EVENTOS DO FORMULÁRIO ====================
-        formMensagem.addEventListener('submit', function(e) {
+        // ==================== EVENTOS ====================
+        formMensagem.addEventListener('submit', (e) => {
             e.preventDefault();
             
             const texto = inputMensagem.value.trim();
-            if (!texto) return;
-            
-            if (!socket.connected) {
-                console.error('❌ Socket não conectado!');
-                alert('Erro: Não conectado ao servidor. Recarregue a página.');
-                return;
+            if (texto) {
+                console.log('📤 Enviando mensagem:', texto);
+                socket.emit('enviar_mensagem', {
+                    id_conversa: idConversa,
+                    texto: texto
+                });
+                inputMensagem.value = '';
             }
-            
-            console.log('📤 Enviando mensagem:', texto);
-            socket.emit('enviar_mensagem', {
-                id_conversa: idConversa,
-                texto: texto
-            });
-            
-            inputMensagem.value = '';
         });
 
-        // ==================== INICIALIZAÇÃO ====================
-        window.addEventListener('DOMContentLoaded', function() {
+        window.addEventListener('DOMContentLoaded', () => {
             const chat_nome = document.querySelector("#chat-desc-nome");
             const chat_foto = document.querySelector("#grid-chat-img");
 
-            chat_nome.textContent = sessionStorage.getItem("chat_nome") || "Carregando...";
-            chat_foto.src = sessionStorage.getItem("chat_foto") || "";
-            
+            chat_nome.textContent = sessionStorage.getItem("chat_nome");
+            chat_foto.src = sessionStorage.getItem("chat_foto");
             scrollParaBaixo();
-            
-            console.log('🌐 Página carregada');
-            console.log('💬 ID da conversa:', idConversa);
         });
     </script>
-    
-    <script src="/static/js/menu.js"></script>
-</body>
+<script src="/static/js/menu.js"></script>
 </html>
