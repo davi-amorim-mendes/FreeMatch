@@ -126,10 +126,13 @@
 
         // ==================== SOCKET.IO ====================
         console.log('Inicializando Socket.IO...');
+
+        const serverUrl = window.location.origin;
+        console.log("Conectando em:", serverUrl);
         
-        const socket = io({
+        const socket = io(serverUrl, {
             withCredentials: true,
-            transports: ['websocket', 'polling'],
+            transports: ['polling', 'websocket'],
             reconnection: true,
             reconnectionDelay: 1000,
             reconnectionAttempts: 5 
