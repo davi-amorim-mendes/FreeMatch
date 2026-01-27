@@ -34,10 +34,10 @@ app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=17)
 app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
 app.config["JWT_COOKIE_CSRF_PROTECT"] = True
 app.config["JWT_COOKIE_SECURE"] = IS_PRODUCTION
-app.config["JWT_COOKIE_SAMESITE"] = "None" if IS_PRODUCTION else "Lax"
+app.config["JWT_COOKIE_SAMESITE"] = "True" if IS_PRODUCTION else "Lax"
 app.config["JWT_ACCESS_COOKIE_PATH"] = "/"
 
-socketio = SocketIO(app, cors_allowed_origins="*", cookie=True, transports=['websocket', 'polling'], async_mode='eventlet', logger=True, engineio_logger=True)
+socketio = SocketIO(app, cors_allowed_origins=ALLOWED_ORIGINS, cookie=True, transports=['websocket', 'polling'], async_mode='eventlet', logger=True, engineio_logger=True)
 
 CORS(app, origins=ALLOWED_ORIGINS, supports_credentials=True, allow_headers=["Authorization", "Content-Type"])
 jwt = JWTManager(app)

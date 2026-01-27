@@ -7,8 +7,8 @@ from datetime import datetime
 def init_socketio(socketio):
     @socketio.on('connect')
     def handle_connect(auth):
-        token = auth.get("token") if auth else None
-        print(f"TOKEN: {token}")
+        token = request.cookies.get("access_token_cookie")
+
         if not token:
             print("Token não encontrado, desconectando...")
             disconnect()

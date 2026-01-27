@@ -127,13 +127,9 @@
         // ==================== SOCKET.IO ====================
         console.log('Inicializando Socket.IO...');
         accessToken = getCookie("access_token_cookie");
-        
+
         const socket = io({
-            auth: {
-                token: accessToken
-            },
-            transports: ['websocket'],
-            reconnection: true
+            transports: ['websocket', 'polling']
         });
 
         socket.on('connect', async () => {
