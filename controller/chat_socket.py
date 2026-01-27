@@ -8,6 +8,7 @@ def init_socketio(socketio):
     @socketio.on('connect')
     def handle_connect(auth):
         token = auth.get("token") if auth else None
+        print(f"TOKEN: {token}")
         if not token:
             print("Token não encontrado, desconectando...")
             disconnect()

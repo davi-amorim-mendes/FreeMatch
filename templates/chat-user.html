@@ -126,10 +126,11 @@
 
         // ==================== SOCKET.IO ====================
         console.log('Inicializando Socket.IO...');
+        accessToken = getCookie("access_token_cookie");
         
         const socket = io({
             auth: {
-                token: getCookie("access_token_cookie")
+                token: accessToken
             },
             transports: ['websocket'],
             reconnection: true
