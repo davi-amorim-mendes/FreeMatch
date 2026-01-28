@@ -77,7 +77,7 @@ Este é um projeto totalmente gratuito! Se você quer ajudar a manter o amor no 
 </p>
 
 <p align="center">
-  <img src="./static/pix/pix.png" alt="QR Code Pix" width="15%">
+  <img src="./static/pix/pix.png" alt="QR Code Pix" width="20%">
 </p>
 
 <p align="center" style="font-size:20px;">
