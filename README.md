@@ -4,7 +4,6 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/status-em%20desenvolvimento-green" alt="Status">
-  <img src="https://img.shields.io/badge/license-MIT-blue" alt="Licença">
   <img src="https://img.shields.io/badge/gratuito-100%25-red" alt="Gratuito">
 </p>
 
