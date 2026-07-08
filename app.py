@@ -13,8 +13,16 @@ from dotenv import load_dotenv
 from itsdangerous import URLSafeTimedSerializer
 from datetime import timedelta
 from flask_socketio import SocketIO
+import cloudinary
 
 load_dotenv()
+
+cloudinary.config(
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET"),
+    secure=True
+)
 
 RESET_PASSWORD_KEY = os.getenv("RESET_PASSWORD_KEY")
 if not RESET_PASSWORD_KEY:

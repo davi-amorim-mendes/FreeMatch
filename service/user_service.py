@@ -24,8 +24,8 @@ class UsuarioService:
     
     @staticmethod
     def atualizar_foto(foto, usuario_id):
-        url = UsuarioRepositorio.salvar_foto_local(foto)
-        UsuarioRepositorio.salvar_foto_db(url, usuario_id)
+        url, public_id = UsuarioRepositorio.salvar_foto_cloudinary(foto)
+        UsuarioRepositorio.salvar_foto_db(url, public_id, usuario_id)
         return url
     
     @staticmethod

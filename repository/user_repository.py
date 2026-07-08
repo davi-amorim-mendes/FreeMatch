@@ -4,8 +4,7 @@ import bcrypt
 import uuid
 from psycopg2.extras import RealDictCursor
 from model.database import SQL
-
-PASTA_FOTOS = "static/img/img_perfil"
+import cloudinary.uploader
 
 class UsuarioRepositorio:
     @classmethod
@@ -124,35 +123,30 @@ class UsuarioRepositorio:
         return True
 
     @classmethod
-    def salvar_foto_local(cls, foto):
-            ext = os.path.splitext(foto.filename)[1] # EXTENSÃO DO ARQUIVO
-            nome_foto = f"{uuid.uuid4()}{ext}"
+    def salvar_foto_cloudinary(cls, foto):
+            resultado = cloudinary.uploader.upload(
+                foto,
+                folder="freematch/perfil",
+                resource_type="image"
+            )
+            url = resultado["secure_url"]
+            public_id = resultado["public_id"]
 
-
-            caminho = os.path.join(PASTA_FOTOS, nome_foto)
-
-            foto.save(caminho)
-
-            url = f'/static/img/img_perfil/{nome_foto}'
-
-            return url
+            return url, public_id
     
     @classmethod
-    def salvar_foto_db(cls, url, usuario_id):
+    def salvar_foto_db(cls, url, public_id, usuario_id):
         conn = SQL.conexao()
         cursor = conn.cursor()
 
-        cursor.execute("SELECT foto FROM usuarios WHERE id=%s", (usuario_id,))
+        cursor.execute("SELECT foto_public_id FROM usuarios WHERE id=%s", (usuario_id,))
 
         resultado = cursor.fetchone()
 
         if resultado and resultado[0]:
-            foto_antiga = resultado[0].lstrip("/")
+            cloudinary.uploader.destroy(resultado[0])
 
-            if os.path.exists(foto_antiga):
-                os.remove(foto_antiga)
-
-        cursor.execute("UPDATE usuarios SET foto=%s WHERE id=%s", (url, usuario_id))
+        cursor.execute("UPDATE usuarios SET foto=%s, foto_public_id=%s WHERE id=%s", (url, public_id, usuario_id))
 
         conn.commit()
         cursor.close()
