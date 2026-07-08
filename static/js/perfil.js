@@ -4,12 +4,12 @@ function cookie(nome)
 }
 
 document.querySelector("#foto-perfil").addEventListener('change', function(){
-    const foto = this.files[0]; // PEGA O PRIMEIRO ARQUIVO SELECIONADO
+    const foto = this.files[0];
     if(!foto) return;
 
     const csrfToken = cookie("csrf_access_token");
 
-    const formData = new FormData(); // FORM DATA É USADO PARA CARREGAR ARQUIVOS, ALGO QUE JSON NÃO PODE
+    const formData = new FormData();
     formData.append('foto-perfil', foto);
 
     fetch("/foto-perfil", {
@@ -28,9 +28,11 @@ document.querySelector("#foto-perfil").addEventListener('change', function(){
     .then(data =>{
         alert(data.mensagem)
         const texto_foto = document.querySelector("#sem-foto");
-        texto_foto.remove()
-        img_perfil = document.querySelector("#img-perfil")
-        img_perfil.src = data.url
+        if (texto_foto) {
+            texto_foto.remove();
+        }
+        const img_perfil = document.querySelector("#img-perfil");
+        img_perfil.src = data.url;
     })
     .catch(error =>{
         alert(`Erro ao enviar imagem: ${error.message}`)
